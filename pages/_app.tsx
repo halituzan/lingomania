@@ -34,12 +34,12 @@ export default function App({ Component, pageProps }: AppProps) {
         {!authLayout ? (
           <Layout>
             <Component {...pageProps} />
-            <Toaster position='top-right' reverseOrder={false} />
+            <Toaster position='bottom-center' reverseOrder={false} />
           </Layout>
         ) : (
           <AuthLayout>
             <Component {...pageProps} />
-            <Toaster position='top-right' reverseOrder={false} />
+            <Toaster position='bottom-center' reverseOrder={false} />
           </AuthLayout>
         )}
       </main>

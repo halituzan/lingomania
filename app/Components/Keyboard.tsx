@@ -63,7 +63,9 @@ const Keyboard = ({
       setRowOK({
         ...rowOk,
         [targetKey]: { ...rowOk[targetKey], status: false, word: keyboardWord },
-        ...(nextKey ? { [nextKey]: { ...rowOk[nextKey], status: true, word: "" } } : {}),
+        ...(nextKey
+          ? { [nextKey]: { ...rowOk[nextKey], status: true, word: "" } }
+          : {}),
       });
     }
 
@@ -87,11 +89,11 @@ const Keyboard = ({
     setKeyboardWord((prev: string) => prev.slice(0, -1));
   };
 
-  const letterButton = `bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 text-white w-12 h-12`;
-
+  const letterButton = `bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 m-1 md:m-[2px] text-white md:w-12 md:h-12 w-10 h-10`;
+  const bigButton = `bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 uppercase m-1 md:m-[2px] text-white md:w-16 w-14 md:h-12 h-10`;
   return (
     <div className='mt-10'>
-      <div className='flex justify-center space-x-1 mb-2'>
+      <div className='flex justify-center flex-wrap md:flex-nowrap mb-[2px]'>
         <button disabled={win} onClick={handleClick} className={letterButton}>
           e
         </button>
@@ -122,15 +124,8 @@ const Keyboard = ({
         <button disabled={win} onClick={handleClick} className={letterButton}>
           ü
         </button>
-        <button
-          disabled={win}
-          onClick={handleDeleteClick}
-          className='bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white w-16 h-12'
-        >
-          DELETE
-        </button>
       </div>
-      <div className='flex justify-center space-x-1 mb-2'>
+      <div className='flex justify-center  flex-wrap md:flex-nowrap    mb-[2px]'>
         <button disabled={win} onClick={handleClick} className={letterButton}>
           a
         </button>
@@ -165,14 +160,7 @@ const Keyboard = ({
           i
         </button>
       </div>
-      <div className='flex justify-center space-x-1'>
-        <button
-          disabled={win}
-          onClick={handleEnterClick}
-          className='bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white w-16 h-12'
-        >
-          ENTER
-        </button>
+      <div className='flex justify-center  flex-wrap md:flex-nowrap mb-[2px] '>
         <button disabled={win} onClick={handleClick} className={letterButton}>
           z
         </button>
@@ -197,11 +185,19 @@ const Keyboard = ({
         <button disabled={win} onClick={handleClick} className={letterButton}>
           ç
         </button>
+      </div>
+      <div className='flex justify-center flex-wrap md:flex-nowrap mb-[2px]'>
+        <button disabled={win} onClick={handleEnterClick} className={bigButton}>
+          ENTER
+        </button>
         <button
           disabled={win}
-          onClick={handleClearClick}
-          className='bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white w-16 h-12'
+          onClick={handleDeleteClick}
+          className={bigButton}
         >
+          DELETE
+        </button>
+        <button disabled={win} onClick={handleClearClick} className={bigButton}>
           CLEAR
         </button>
       </div>

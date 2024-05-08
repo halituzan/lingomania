@@ -11,10 +11,12 @@ function Row({ isOk, keyboardWord, word }: Props) {
   const { firstLetter, selectWord, filterWords, win } = useSelector(
     (state: any) => state.letter
   );
-
+  const divClass =
+  "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-14 h-14";
   const changingClass = (n: number) => {
     const isLetter = selectWord[n] === word[n];
     const isInclude = selectWord.includes(word[n]);
+   
 
     return `
     ${
@@ -35,7 +37,7 @@ function Row({ isOk, keyboardWord, word }: Props) {
 
   return (
     <div>
-      <div className='grid grid-cols-5 gap-4 mb-3'>
+      <div className='grid grid-cols-5 gap-1 md:gap-4 mb-1 md:mb-3'>
         <div className={`bg-green-700 text-white ${divClass}`}>
           {firstLetter}
         </div>
@@ -57,6 +59,3 @@ function Row({ isOk, keyboardWord, word }: Props) {
 }
 
 export default Row;
-
-const divClass =
-  "uppercase text-4xl font-semibold flex justify-center items-center w-16 h-16";
