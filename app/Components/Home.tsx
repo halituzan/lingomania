@@ -151,12 +151,16 @@ const Home = (props: Props) => {
         rowOk={rowOk}
       />
 
-      <Keyboard
-        setKeyboardWord={setKeyboardWord}
-        rowOk={rowOk}
-        setRowOK={setRowOK}
-        keyboardWord={keyboardWord}
-      />
+      {win !== selectWord && win !== "fail" ? (
+        <Keyboard
+          setKeyboardWord={setKeyboardWord}
+          rowOk={rowOk}
+          setRowOK={setRowOK}
+          keyboardWord={keyboardWord}
+        />
+      ) : (
+        ""
+      )}
       {win === selectWord && (
         <div className='text-white mb-4'>
           <p className='text-white text-2xl my-4'>Bildiniz. Tebrikler.</p>
@@ -169,7 +173,7 @@ const Home = (props: Props) => {
         <div className='text-white mb-4'>
           <p className='text-white text-2xl my-4'>Bilemediniz.</p>
           <p className='text-white text-2xl my-4'>Kelime: {selectWord}</p>
-          <button className='bg-green-700 p-4 rounded-md' onClick={newGame}>
+          <button className='bg-red-700 p-4 rounded-md' onClick={newGame}>
             Yeni bir kelime dene
           </button>
         </div>
