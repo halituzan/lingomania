@@ -19,10 +19,7 @@ const Keyboard = ({
   const { selectWord, win, filterWords, firstLetter } = useSelector(
     (state: any) => state.letter
   );
-  const handleClick = (
-    e: any,
-    type = "click"
-  ) => {
+  const handleClick = (e: any, type = "click") => {
     if (keyboardWord.length >= 0 && keyboardWord.length <= 4) {
       if (type == "keydown") {
         setKeyboardWord((prev: string) => prev + e.key);
@@ -101,7 +98,7 @@ const Keyboard = ({
     }
     setKeyboardWord((prev: string) => prev.slice(0, -1));
   };
-  console.log(turkceHarfler);
+
   useEffect(() => {
     function keyDownHandler(e: any) {
       console.log("first", e);
@@ -127,7 +124,7 @@ const Keyboard = ({
   const bigButton = `bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 uppercase m-1 md:m-[2px] text-white md:w-16 w-14 md:h-12 h-10`;
   return (
     <div className='mt-10'>
-      <div className='flex justify-center flex-wrap md:flex-nowrap mb-[2px]'>
+      <div className='grid grid-cols-6 mb-[2px]'>
         <button disabled={win} onClick={handleClick} className={letterButton}>
           e
         </button>
@@ -158,8 +155,6 @@ const Keyboard = ({
         <button disabled={win} onClick={handleClick} className={letterButton}>
           ü
         </button>
-      </div>
-      <div className='flex justify-center  flex-wrap md:flex-nowrap    mb-[2px]'>
         <button disabled={win} onClick={handleClick} className={letterButton}>
           a
         </button>
@@ -193,8 +188,7 @@ const Keyboard = ({
         <button disabled={win} onClick={handleClick} className={letterButton}>
           i
         </button>
-      </div>
-      <div className='flex justify-center  flex-wrap md:flex-nowrap mb-[2px] '>
+
         <button disabled={win} onClick={handleClick} className={letterButton}>
           z
         </button>
@@ -219,11 +213,6 @@ const Keyboard = ({
         <button disabled={win} onClick={handleClick} className={letterButton}>
           ç
         </button>
-      </div>
-      <div className='flex justify-center flex-wrap md:flex-nowrap mb-[2px]'>
-        <button disabled={win} onClick={handleEnterClick} className={bigButton}>
-          ENTER
-        </button>
         <button
           disabled={win}
           onClick={handleDeleteClick}
@@ -231,7 +220,13 @@ const Keyboard = ({
         >
           DELETE
         </button>
-        <button disabled={win} onClick={handleClearClick} className={bigButton}>
+      </div>
+      <div className='grid grid-cols-2 gap-2 mb-[2px]'>
+        <button disabled={win} onClick={handleEnterClick} className={bigButton +" w-full"}>
+          ENTER
+        </button>
+
+        <button disabled={win} onClick={handleClearClick} className={bigButton +" w-full"}>
           CLEAR
         </button>
       </div>
