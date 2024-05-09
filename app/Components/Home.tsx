@@ -21,7 +21,6 @@ const Home = (props: Props) => {
   const { firstLetter, selectWord, filterWords, win } = useSelector(
     (state: any) => state.letter
   );
-  console.log("win", win);
 
   useEffect(() => {
     const letter = randomLetter();
