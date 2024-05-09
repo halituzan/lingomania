@@ -7,6 +7,7 @@ interface LetterStates {
   selectWord: string;
   filterWords: string[] | null[];
   win: string;
+  result: object;
 }
 
 const initialState: LetterStates = {
@@ -14,6 +15,7 @@ const initialState: LetterStates = {
   filterWords: [],
   selectWord: "",
   win: "",
+  result: {},
 };
 
 const letterSlice = createSlice({
@@ -29,13 +31,21 @@ const letterSlice = createSlice({
     setFilterWords: (state, action: PayloadAction<string[] | null[]>) => {
       state.filterWords = action.payload;
     },
+    setResult: (state, action: PayloadAction<object>) => {
+      state.result = action.payload;
+    },
     winHandler: (state, action: PayloadAction<string>) => {
       state.win = action.payload;
     },
   },
 });
 
-export const { setFirstLetter, setFilterWords, setSelectWord, winHandler } =
-  letterSlice.actions;
+export const {
+  setFirstLetter,
+  setFilterWords,
+  setSelectWord,
+  winHandler,
+  setResult,
+} = letterSlice.actions;
 
 export default letterSlice.reducer;

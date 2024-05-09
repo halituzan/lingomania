@@ -1,10 +1,8 @@
-import { setResult, winHandler } from "@/lib/features/letter/letterSlice";
+import { winHandler } from "@/lib/features/letter/letterSlice";
 import { Icon } from "@iconify/react";
-import axios from "axios";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-
 type Props = {
   keyboardWord: string;
   setKeyboardWord: any;
@@ -36,18 +34,7 @@ const Keyboard = ({
     return rowOk[i].word;
   });
 
-  const getWords = async (word: string) => {
-    try {
-      const res = await axios.get("/api/get-word?word=" + word);
-      return res.data.word;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  console.log(selectWord);
-
-  const handleEnterClick = async (
+  const handleEnterClick = (
     event:
       | React.MouseEvent<HTMLButtonElement>
       | React.KeyboardEvent<HTMLButtonElement>,
@@ -81,16 +68,9 @@ const Keyboard = ({
       }
     }
     if (targetKey) {
-      const response = await getWords(keyboardWord);
-
       setRowOK({
         ...rowOk,
-        [targetKey]: {
-          ...rowOk[targetKey],
-          status: false,
-          word: keyboardWord,
-          means: response.means,
-        },
+        [targetKey]: { ...rowOk[targetKey], status: false, word: keyboardWord },
         ...(nextKey
           ? { [nextKey]: { ...rowOk[nextKey], status: true, word: "" } }
           : {}),
@@ -157,7 +137,6 @@ const Keyboard = ({
         }
       }
     }
-
     return `${
       correctResult.some((i) => i == item)
         ? "bg-green-600"
@@ -166,15 +145,16 @@ const Keyboard = ({
         : noneResult.some((i) => i == item)
         ? "bg-slate-900"
         : "bg-slate-600"
-    } rounded-md mr-[6px] p-0 m-0 disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white flex-1 touch-manipulation`;
+    } flex justify-center items-center  disabled:bg-slate-800 hover:bg-slate-400 uppercase md:m-[2px] text-white w-full h-10`;
   };
-  const bigButton = `bg-slate-600 mr-[6px] p-0 m-0 touch-manipulation rounded-md flex justify-center items-center disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white w-14 h-full`;
+  const bigButton = `bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 uppercase md:m-[2px] text-white w-14 h-full`;
   return (
-    <div className='px-2 w-full h-[200px] mt-2 flex flex-col'>
-      <div className='flex my-auto mb-2 flex-1'>
-        {letterLine1.map((item) => {
+    <div className='mt-2 w-full'>
+      <div className='grid grid-cols-6 gap-2 mb-[2px]'>
+        {turkishLetters.map((item: string) => {
           return (
             <button
+              key={item}
               disabled={win}
               onClick={handleClick}
               className={letterButton(item)}
@@ -183,68 +163,31 @@ const Keyboard = ({
             </button>
           );
         })}
+
+        <button
+          disabled={win}
+          onClick={handleDeleteClick}
+          className={letterButton("backspace")}
+        >
+          <Icon icon='iconamoon:backspace-duotone' fontSize={30} />
+        </button>
       </div>
-      <div className='flex my-auto mb-2 flex-1'>
-        <div className='flex-[0.5]'></div>
-        {letterLine2.map((item) => {
-          return (
-            <button
-              disabled={win}
-              onClick={handleClick}
-              className={letterButton(item)}
-            >
-              {item}
-            </button>
-          );
-        })}
-        <div className='flex-[0.5]'></div>
-      </div>
-      <div className='flex my-auto mb-2 flex-1'>
-        {letterLine3.map((item, index) => {
-          if (index == 0) {
-            return (
-              <button
-                disabled={win}
-                onClick={handleEnterClick}
-                className={bigButton}
-              >
-                {item}
-              </button>
-            );
-          } else if (letterLine3.length - 1 == index) {
-            return (
-              <button
-                disabled={win}
-                onClick={handleDeleteClick}
-                className={bigButton}
-              >
-                <Icon icon='iconamoon:backspace-duotone' fontSize={30} />
-              </button>
-            );
-          } else {
-            return (
-              <button
-                disabled={win}
-                onClick={handleClick}
-                className={letterButton(item)}
-              >
-                {item}
-              </button>
-            );
-          }
-        })}
-      </div>
-      <div className='flex my-auto mb-2 flex-1'>
-        <div className='flex-[0.1]'></div>
+      <div className='grid grid-cols-2 gap-2 mt-2 mb-[2px]'>
+        <button
+          disabled={win}
+          onClick={handleEnterClick}
+          className={bigButton + " w-full"}
+        >
+          Seç
+        </button>
+
         <button
           disabled={win}
           onClick={handleClearClick}
-          className={bigButton + " w-full flex-col flex-1"}
+          className={bigButton + " w-full"}
         >
-          <p className='-mb-2'>Clear</p>
-          <Icon icon='fluent:spacebar-24-filled' fontSize={24} />
+          Temizle
         </button>
-        <div className='flex-[0.1]'></div>
       </div>
     </div>
   );
@@ -283,7 +226,3 @@ const turkishLetters = [
   "ö",
   "ç",
 ];
-
-const letterLine1 = ["e", "r", "t", "y", "u", "ı", "o", "p", "ğ", "ü"];
-const letterLine2 = ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ş", "i"];
-const letterLine3 = ["Enter", "z", "c", "v", "b", "n", "m", "ö", "ç", "Delete"];
