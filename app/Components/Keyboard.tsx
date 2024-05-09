@@ -20,7 +20,7 @@ const Keyboard = ({
     (state: any) => state.letter
   );
   const handleClick = (
-    e: React.MouseEvent<HTMLButtonElement>,
+    e: any,
     type = "click"
   ) => {
     if (keyboardWord.length >= 0 && keyboardWord.length <= 4) {
