@@ -12,7 +12,7 @@ function Row({ isOk, keyboardWord, word }: Props) {
     (state: any) => state.letter
   );
   const divClass =
-  "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-14 h-14";
+  "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-14 h-14 letter";
   const changingClass = (n: number) => {
     const isLetter = selectWord[n] === word[n];
     const isInclude = selectWord.includes(word[n]);

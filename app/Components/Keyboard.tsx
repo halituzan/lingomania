@@ -1,5 +1,5 @@
 import { winHandler } from "@/lib/features/letter/letterSlice";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 type Props = {
@@ -19,11 +19,17 @@ const Keyboard = ({
   const { selectWord, win, filterWords, firstLetter } = useSelector(
     (state: any) => state.letter
   );
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    type = "click"
+  ) => {
     if (keyboardWord.length >= 0 && keyboardWord.length <= 4) {
-      setKeyboardWord(
-        (prev: string) => prev + (e.target as HTMLButtonElement).innerHTML
-      );
+      if (type == "keydown") {
+        setKeyboardWord((prev: string) => prev + e.key);
+      } else
+        setKeyboardWord(
+          (prev: string) => prev + (e.target as HTMLButtonElement).innerHTML
+        );
     }
   };
   const wordList = Object.keys(rowOk).map((i) => {
@@ -31,7 +37,13 @@ const Keyboard = ({
   });
 
   console.log(wordList);
-  const handleEnterClick = () => {
+  const handleEnterClick = (
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLButtonElement>,
+    type = "click"
+  ) => {
+    console.log(event);
     if (keyboardWord.length !== 5) {
       toast.error("Lütfen Tüm Harfleri Doldurun.");
       return;
@@ -79,6 +91,7 @@ const Keyboard = ({
       }
     }
   };
+
   const handleClearClick = () => {
     setKeyboardWord(keyboardWord[0]);
   };
@@ -88,8 +101,29 @@ const Keyboard = ({
     }
     setKeyboardWord((prev: string) => prev.slice(0, -1));
   };
+  console.log(turkceHarfler);
+  useEffect(() => {
+    function keyDownHandler(e: any) {
+      console.log("first", e);
+      console.log(e.key);
+      if (e.key === "Enter") {
+        handleEnterClick(e, "keydown");
+      } else if (e.key === "Backspace") {
+        handleDeleteClick();
+      } else if (e.code === "Space") {
+        handleClearClick();
+      } else if (turkceHarfler.some((i) => i == e.key)) {
+        handleClick(e, "keydown");
+      }
+    }
 
-  const letterButton = `bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 m-1 md:m-[2px] text-white md:w-12 md:h-12 w-10 h-10`;
+    document.addEventListener("keydown", keyDownHandler);
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  });
+
+  const letterButton = `bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 uppercase m-1 md:m-[2px] text-white md:w-12 md:h-12 w-10 h-10`;
   const bigButton = `bg-slate-600 disabled:bg-slate-800 hover:bg-slate-400 uppercase m-1 md:m-[2px] text-white md:w-16 w-14 md:h-12 h-10`;
   return (
     <div className='mt-10'>
@@ -206,3 +240,34 @@ const Keyboard = ({
 };
 
 export default Keyboard;
+var turkceHarfler = [
+  "a",
+  "b",
+  "c",
+  "ç",
+  "d",
+  "e",
+  "f",
+  "g",
+  "ğ",
+  "h",
+  "ı",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "ö",
+  "p",
+  "r",
+  "s",
+  "ş",
+  "t",
+  "u",
+  "ü",
+  "v",
+  "y",
+  "z",
+];

@@ -29,7 +29,6 @@ export default function App({ Component, pageProps }: AppProps) {
   }
   return (
     <Provider store={store}>
-      {/* <I18nextProvider i18n={i18n}> */}
       <main className={poppins.className}>
         {!authLayout ? (
           <Layout>
@@ -43,7 +42,6 @@ export default function App({ Component, pageProps }: AppProps) {
           </AuthLayout>
         )}
       </main>
-      {/* </I18nextProvider> */}
     </Provider>
   );
 }
