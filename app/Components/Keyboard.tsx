@@ -81,7 +81,7 @@ const Keyboard = ({
       }
     }
     if (targetKey) {
-      const response = await getWords(keyboardWord);
+
 
       setRowOK({
         ...rowOk,
@@ -95,8 +95,9 @@ const Keyboard = ({
           ? { [nextKey]: { ...rowOk[nextKey], status: true, word: "" } }
           : {}),
       });
+      
     }
-
+    const response = await getWords(keyboardWord);
     setKeyboardWord(keyboardWord[0]);
 
     if (keyboardWord === selectWord) {
