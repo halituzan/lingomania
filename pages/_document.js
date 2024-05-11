@@ -16,7 +16,7 @@ class CustomDocument extends Document {
           <link rel='shortcut icon' href='/images/favicon.ico' />
           <title>Lingomania</title>
         </Head>
-        <body>
+        <body className="bg-black">
           <Main />
           <NextScript />
           
