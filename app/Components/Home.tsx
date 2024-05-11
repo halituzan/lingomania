@@ -211,7 +211,6 @@ const Home = (props: Props) => {
           rowOk={rowOk}
           setRowOK={setRowOK}
           keyboardWord={keyboardWord}
-          rowMeans={rowMeans}
           setRowMeans={setRowMeans}
         />
       ) : (

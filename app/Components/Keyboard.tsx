@@ -1,9 +1,5 @@
 import {
-  setFilterWords,
-  setFirstLetter,
-  setResult,
-  setSelectWord,
-  winHandler,
+  winHandler
 } from "@/lib/features/letter/letterSlice";
 import { Icon } from "@iconify/react";
 import axios from "axios";
@@ -18,7 +14,6 @@ type Props = {
   setKeyboardWord: any;
   rowOk: any;
   setRowOK: any;
-  rowMeans: any;
   setRowMeans: any;
 };
 
@@ -27,7 +22,6 @@ const Keyboard = ({
   setKeyboardWord,
   rowOk,
   setRowOK,
-  rowMeans,
   setRowMeans,
 }: Props) => {
   const dispatch = useDispatch();
@@ -151,19 +145,37 @@ const Keyboard = ({
     };
   });
 
+  const gameClear = async () => {
+    const letter = randomLetter();
+    const wordList = wordsFilter(letter);
+    const currentWord = selectCurrentWord(wordList);
+    window.localStorage.setItem("letter", letter);
+    window.localStorage.setItem("word", currentWord);
+  };
+
   const letterButton = (item: string) => {
     const isUsed = wordList.some((i) => i.includes(item));
-    const correctResult = [];
-    const includeResult = [];
-    const noneResult = [];
+
+    const correctResult: any = [];
+    const includeResult: any = [];
+    const noneResult: any = [];
+
     for (const word of wordList) {
       if (word) {
+       
+
         for (let i = 0; i < selectWord.length; i++) {
           let char1 = selectWord[i];
           let char2 = word[i];
           if (char1 === char2) {
+            //* aynı indexteki karakterler eşitse
             correctResult.push(word[i]);
-          } else if (word.includes(char1)) {
+          } else if (selectWord.includes(item)) {
+            //* aynı indexteki karakterler eşit değilse
+            //* ve girdiğimiz kelime içerisinde o harf varsa
+            // if (correctResult.some((i: any) => i == char2)) {
+            //   return;
+            // }
             includeResult.push(word[i]);
           } else {
             noneResult.push(word[i]);
@@ -173,23 +185,14 @@ const Keyboard = ({
     }
 
     return `${
-      correctResult.some((i) => i == item)
+      correctResult.some((i: any) => i == item)
         ? "bg-green-600"
-        : includeResult.some((i) => i == item)
+        : includeResult.some((i: any) => i == item)
         ? "bg-yellow-600"
-        : noneResult.some((i) => i == item)
+        : noneResult.some((i: any) => i == item)
         ? "bg-slate-900"
         : "bg-slate-600"
     } rounded-md mr-[6px] p-0 m-0 disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white flex-1 touch-manipulation`;
-  };
-
-  const gameClear = async () => {
-    const letter = randomLetter();
-    const wordList = wordsFilter(letter);
-    const currentWord = selectCurrentWord(wordList);
-    window.localStorage.setItem("letter", letter);
-    window.localStorage.setItem("word", currentWord);
-  
   };
   const bigButton = `bg-slate-600 mr-[6px] p-0 m-0 touch-manipulation rounded-md flex justify-center items-center disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white w-14 h-full`;
   return (
