@@ -108,7 +108,11 @@ const Keyboard = ({
       }
     }
     const res = await getWords(keyboardWord);
-    setRowMeans((prev: any) => [...prev, res.means]);
+    if (!res?.means) {
+      setRowMeans((prev: any) => [...prev, []]);
+    } else {
+      setRowMeans((prev: any) => [...prev, res.means]);
+    }
   };
 
   const handleClearClick = () => {
@@ -213,7 +217,7 @@ const Keyboard = ({
                   bigButton + " flex flex-col items-center justify-center"
                 }
               >
-                <p className="-mb-2">{item}</p>
+                <p className='-mb-2'>{item}</p>
                 <Icon icon='fluent:spacebar-24-filled' fontSize={24} />
               </button>
             );

@@ -5,7 +5,7 @@ import {
   setSelectWord,
   winHandler,
 } from "@/lib/features/letter/letterSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import randomLetter from "../Helpers/randomLetter";
@@ -17,8 +17,10 @@ import axios from "axios";
 type Props = {};
 
 const Home = (props: Props) => {
+  const popoverRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation("common");
   const [showPopover, setShowPopover] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { firstLetter, selectWord, result, win } = useSelector(
     (state: any) => state.letter
@@ -35,6 +37,7 @@ const Home = (props: Props) => {
   };
   useEffect(() => {
     const localLetter = window.localStorage.getItem("letter");
+
     const word = window.localStorage.getItem("word");
     const letter = randomLetter();
     const wordFilter = wordsFilter(letter);
@@ -96,6 +99,7 @@ const Home = (props: Props) => {
   const [rowMeans, setRowMeans] = useState([]);
 
   const newGame = async () => {
+    setLoading(true);
     const letter = randomLetter();
     const wordList = wordsFilter(letter);
     const currentWord = selectCurrentWord(wordList);
@@ -136,7 +140,26 @@ const Home = (props: Props) => {
       },
     });
     setRowMeans([]);
+    setLoading(false);
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    // Assert event.target to be of type EventTarget
+    if (!popoverRef.current) return;
+    if (
+      popoverRef.current &&
+      !popoverRef?.current?.contains(event.target as Node)
+    ) {
+      setShowPopover(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div
@@ -197,8 +220,19 @@ const Home = (props: Props) => {
       {win === selectWord && (
         <div className='text-white mb-4'>
           <p className='text-white text-2xl my-4'>Bildiniz. Tebrikler.</p>
-          <button className='bg-green-700 p-4 rounded-md' onClick={newGame}>
-            Yeni bir kelime dene
+          <button
+            className='bg-green-700 p-4 rounded-md disabled:bg-green-900'
+            disabled={loading}
+            onClick={newGame}
+          >
+            {loading ? (
+              <span className='flex items-center'>
+                <Icon icon='line-md:loading-loop' fontSize={32} />
+                Yeni Oyuna Başlatılıyor
+              </span>
+            ) : (
+              "Yeni Oyun Başlat"
+            )}
           </button>
         </div>
       )}
@@ -216,7 +250,10 @@ const Home = (props: Props) => {
                   onClick={() => setShowPopover(!showPopover)}
                 />
                 {showPopover && (
-                  <div className='absolute bottom-16 md:bottom-10 -left-32 md:left-10 min-w-[300px] min-h-[300px] max-h-[400px] p-4 rounded-xl md:rounded-bl-none shadow-md shadow-black bg-slate-600 overflow-y-auto'>
+                  <div
+                    ref={popoverRef}
+                    className='absolute bottom-16 md:bottom-10 -left-32 md:left-10 min-w-[300px] max-h-[400px] p-4 rounded-xl md:rounded-bl-none shadow-md shadow-black bg-slate-600 overflow-y-auto'
+                  >
                     <p className='flex flex-col uppercase border-b mb-2'>
                       {selectWord}: {result.lisan}
                     </p>
@@ -244,8 +281,19 @@ const Home = (props: Props) => {
               </div>
             )}
           </div>
-          <button className='bg-red-700 p-4 rounded-md' onClick={newGame}>
-            Yeni bir kelime dene
+          <button
+            className='bg-red-700 p-4 rounded-md disabled:bg-green-900'
+            disabled={loading}
+            onClick={newGame}
+          >
+            {loading ? (
+              <span className='flex items-center'>
+                <Icon icon='line-md:loading-loop' fontSize={32} />
+                Yeni Oyuna Başlatılıyor
+              </span>
+            ) : (
+              "Yeni Oyun Başlat"
+            )}
           </button>
         </div>
       )}

@@ -75,7 +75,7 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
           )}
         </p>
         {showPopover && means.length > 0 && (
-          <div ref={popoverRef} className='absolute top-2 left-5 min-w-[250px] z-50 min-h-[300px] max-h-[400px] p-4 rounded-xl rounded-tl-none shadow-md shadow-black bg-slate-600 overflow-y-auto'>
+          <div ref={popoverRef} className='absolute top-2 left-5 min-w-[250px] z-50 max-h-[400px] p-4 rounded-xl rounded-tl-none shadow-md shadow-black bg-slate-600 overflow-y-auto'>
             <div>
               <ul>
                 {means?.map(
