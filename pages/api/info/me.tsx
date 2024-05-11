@@ -34,7 +34,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!user) {
       return res.json({ message: "Böyle Bir Kullanıcı Bulunamıyor" });
     }
-    const { firstName, lastName, phone, email, profileImage, _id } = user;
+    const {
+      firstName,
+      lastName,
+      phone,
+      email,
+      profileImage,
+      _id,
+      userName,
+      badges,
+      totalScore,
+      level,
+    } = user;
     return res.status(200).json({
       data: {
         firstName,
@@ -42,7 +53,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         phone,
         email,
         profileImage,
+        userName,
+        badges,
         id: _id,
+        totalScore,
+        level,
       },
       status: true,
     });

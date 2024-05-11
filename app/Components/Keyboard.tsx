@@ -1,9 +1,17 @@
-import { setResult, winHandler } from "@/lib/features/letter/letterSlice";
+import {
+  setFilterWords,
+  setFirstLetter,
+  setResult,
+  setSelectWord,
+  winHandler,
+} from "@/lib/features/letter/letterSlice";
 import { Icon } from "@iconify/react";
 import axios from "axios";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import randomLetter from "../Helpers/randomLetter";
+import { selectCurrentWord, wordsFilter } from "../Helpers/wordsFilter";
 
 type Props = {
   keyboardWord: string;
@@ -49,8 +57,6 @@ const Keyboard = ({
     }
   };
 
-  console.log(rowOk);
-
   const handleEnterClick = async (
     event:
       | React.MouseEvent<HTMLButtonElement>
@@ -66,7 +72,6 @@ const Keyboard = ({
       setKeyboardWord(firstLetter);
       return;
     }
-
     if (wordList.some((i) => i == keyboardWord)) {
       toast.error("Girdiğiniz Kelimeyi Giremezsiniz!");
       setKeyboardWord(firstLetter);
@@ -102,9 +107,11 @@ const Keyboard = ({
 
     if (keyboardWord === selectWord) {
       dispatch(winHandler(selectWord));
+      gameClear();
     } else {
       if (rowOk.row6.status && keyboardWord !== selectWord) {
         dispatch(winHandler("fail"));
+        gameClear();
       }
     }
     const res = await getWords(keyboardWord);
@@ -174,6 +181,15 @@ const Keyboard = ({
         ? "bg-slate-900"
         : "bg-slate-600"
     } rounded-md mr-[6px] p-0 m-0 disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white flex-1 touch-manipulation`;
+  };
+
+  const gameClear = async () => {
+    const letter = randomLetter();
+    const wordList = wordsFilter(letter);
+    const currentWord = selectCurrentWord(wordList);
+    window.localStorage.setItem("letter", letter);
+    window.localStorage.setItem("word", currentWord);
+  
   };
   const bigButton = `bg-slate-600 mr-[6px] p-0 m-0 touch-manipulation rounded-md flex justify-center items-center disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white w-14 h-full`;
   return (
