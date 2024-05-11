@@ -14,7 +14,7 @@ class CustomDocument extends Document {
             href='/images/apple-touch-icon.png'
           />
           <link rel='shortcut icon' href='/images/favicon.ico' />
-          <title>Clean Setup - Next.JS</title>
+          <title>Lingomania</title>
         </Head>
         <body>
           <Main />

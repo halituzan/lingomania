@@ -14,8 +14,7 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
   const { firstLetter, selectWord, filterWords, win } = useSelector(
     (state: any) => state.letter
   );
-  console.log(means);
-  
+
   const divClass =
     "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-14 h-14 letter";
   const changingClass = (n: number) => {
@@ -49,7 +48,11 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
               className='cursor-pointer text-[14px] absolute -top-3 -left-3 p-1 -rotate-45 rounded-full bg-orange-600'
               onClick={() => setShowPopover(!showPopover)}
             >
-              <Icon icon="ph:seal-question-duotone" fontSize={24} className="text-white" />
+              <Icon
+                icon='ph:seal-question-duotone'
+                fontSize={24}
+                className='text-white'
+              />
             </span>
           )}
         </p>

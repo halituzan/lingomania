@@ -23,7 +23,7 @@ const Home = (props: Props) => {
   const { firstLetter, selectWord, result, win } = useSelector(
     (state: any) => state.letter
   );
-  console.log(result);
+
   const getWords = async (word: string) => {
     try {
       const res = await axios.get("/api/get-word?word=" + word);

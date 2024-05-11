@@ -45,7 +45,7 @@ const Keyboard = ({
     }
   };
 
-  console.log(selectWord);
+  console.log(rowOk);
 
   const handleEnterClick = async (
     event:
@@ -81,23 +81,21 @@ const Keyboard = ({
       }
     }
     if (targetKey) {
-
-
+      const res = await getWords(keyboardWord);
       setRowOK({
         ...rowOk,
         [targetKey]: {
           ...rowOk[targetKey],
           status: false,
           word: keyboardWord,
-          means: response.means,
+          means: res.means,
         },
         ...(nextKey
           ? { [nextKey]: { ...rowOk[nextKey], status: true, word: "" } }
           : {}),
       });
-      
     }
-    const response = await getWords(keyboardWord);
+
     setKeyboardWord(keyboardWord[0]);
 
     if (keyboardWord === selectWord) {
