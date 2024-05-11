@@ -5,7 +5,6 @@ type Props = {
   keyboardWord: string;
   word: string;
   isOk: boolean;
-  rowOk?: any;
   means?: any;
 };
 
@@ -62,7 +61,7 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
       <div className={`bg-green-700 text-white relative ${divClass}`}>
         <p className='z-0'>
           {firstLetter}
-          {means.length > 0 && (
+          {means?.length > 0 && (
             <span
               className='cursor-pointer text-[14px] absolute -top-3 -left-3 p-1 -rotate-45 rounded-full bg-orange-600'
               onClick={() => setShowPopover(!showPopover)}

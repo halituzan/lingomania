@@ -10,6 +10,8 @@ type Props = {
   setKeyboardWord: any;
   rowOk: any;
   setRowOK: any;
+  rowMeans: any;
+  setRowMeans: any;
 };
 
 const Keyboard = ({
@@ -17,6 +19,8 @@ const Keyboard = ({
   setKeyboardWord,
   rowOk,
   setRowOK,
+  rowMeans,
+  setRowMeans,
 }: Props) => {
   const dispatch = useDispatch();
   const { selectWord, win, filterWords, firstLetter } = useSelector(
@@ -81,14 +85,12 @@ const Keyboard = ({
       }
     }
     if (targetKey) {
-      const res = await getWords(keyboardWord);
       setRowOK({
         ...rowOk,
         [targetKey]: {
           ...rowOk[targetKey],
           status: false,
           word: keyboardWord,
-          means: res.means,
         },
         ...(nextKey
           ? { [nextKey]: { ...rowOk[nextKey], status: true, word: "" } }
@@ -105,6 +107,8 @@ const Keyboard = ({
         dispatch(winHandler("fail"));
       }
     }
+    const res = await getWords(keyboardWord);
+    setRowMeans((prev: any) => [...prev, res.means]);
   };
 
   const handleClearClick = () => {

@@ -99,6 +99,7 @@ const Home = (props: Props) => {
       means: [],
     },
   });
+  const [rowMeans, setRowMeans] = useState([]);
 
   const newGame = async () => {
     const letter = randomLetter();
@@ -156,40 +157,39 @@ const Home = (props: Props) => {
       <div className='w-[330px] h-[390px] md:w-auto md:h-auto'>
         <Row
           keyboardWord={keyboardWord}
-          means={rowOk.row1.means}
+          means={rowMeans[0] ? rowMeans[0] : []}
           isOk={rowOk.row1.status}
           word={rowOk.row1.word}
         />
         <Row
           keyboardWord={keyboardWord}
-          means={rowOk.row2.means}
+          means={rowMeans[1] ? rowMeans[1] : []}
           isOk={rowOk.row2.status}
           word={rowOk.row2.word}
         />
         <Row
           keyboardWord={keyboardWord}
-          means={rowOk.row3.means}
+          means={rowMeans[2] ? rowMeans[2] : []}
           isOk={rowOk.row3.status}
           word={rowOk.row3.word}
         />
         <Row
           keyboardWord={keyboardWord}
-          means={rowOk.row4.means}
+          means={rowMeans[3] ? rowMeans[3] : []}
           isOk={rowOk.row4.status}
           word={rowOk.row4.word}
         />
         <Row
           keyboardWord={keyboardWord}
-          means={rowOk.row5.means}
+          means={rowMeans[4] ? rowMeans[4] : []}
           isOk={rowOk.row5.status}
           word={rowOk.row5.word}
         />
         <Row
           keyboardWord={keyboardWord}
-          means={rowOk.row6.means}
+          means={rowMeans[5] ? rowMeans[5] : []}
           isOk={rowOk.row6.status}
           word={rowOk.row6.word}
-          rowOk={rowOk}
         />
       </div>
 
@@ -199,6 +199,8 @@ const Home = (props: Props) => {
           rowOk={rowOk}
           setRowOK={setRowOK}
           keyboardWord={keyboardWord}
+          rowMeans={rowMeans}
+          setRowMeans={setRowMeans}
         />
       ) : (
         ""
