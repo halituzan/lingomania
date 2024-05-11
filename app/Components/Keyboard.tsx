@@ -208,10 +208,13 @@ const Keyboard = ({
             return (
               <button
                 disabled={win}
-                onClick={handleEnterClick}
-                className={bigButton}
+                onClick={handleClearClick}
+                className={
+                  bigButton + " flex flex-col items-center justify-center"
+                }
               >
-                {item}
+                <p className="-mb-2">{item}</p>
+                <Icon icon='fluent:spacebar-24-filled' fontSize={24} />
               </button>
             );
           } else if (letterLine3.length - 1 == index) {
@@ -241,11 +244,11 @@ const Keyboard = ({
         <div className='flex-[0.1]'></div>
         <button
           disabled={win}
-          onClick={handleClearClick}
-          className={bigButton + " w-full flex-col flex-1"}
+          onClick={handleEnterClick}
+          className={bigButton + " w-full items-center flex flex-1"}
         >
-          <p className='-mb-2'>Clear</p>
-          <Icon icon='fluent:spacebar-24-filled' fontSize={24} />
+          <p className='mr-2'>Enter</p>
+          <Icon icon='icon-park-twotone:enter-key-one' fontSize={24} />
         </button>
         <div className='flex-[0.1]'></div>
       </div>
@@ -289,4 +292,4 @@ const turkishLetters = [
 
 const letterLine1 = ["e", "r", "t", "y", "u", "ı", "o", "p", "ğ", "ü"];
 const letterLine2 = ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ş", "i"];
-const letterLine3 = ["Enter", "z", "c", "v", "b", "n", "m", "ö", "ç", "Delete"];
+const letterLine3 = ["Clear", "z", "c", "v", "b", "n", "m", "ö", "ç", "Delete"];
