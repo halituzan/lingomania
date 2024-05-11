@@ -71,32 +71,26 @@ const Home = (props: Props) => {
     row1: {
       status: true,
       word: "",
-      means: [],
     },
     row2: {
       status: false,
       word: "",
-      means: [],
     },
     row3: {
       status: false,
       word: "",
-      means: [],
     },
     row4: {
       status: false,
       word: "",
-      means: [],
     },
     row5: {
       status: false,
       word: "",
-      means: [],
     },
     row6: {
       status: false,
       word: "",
-      means: [],
     },
   });
   const [rowMeans, setRowMeans] = useState([]);
@@ -119,34 +113,29 @@ const Home = (props: Props) => {
       row1: {
         status: true,
         word: "",
-        means: [],
       },
       row2: {
         status: false,
         word: "",
-        means: [],
       },
       row3: {
         status: false,
         word: "",
-        means: [],
       },
       row4: {
         status: false,
         word: "",
-        means: [],
       },
       row5: {
         status: false,
         word: "",
-        means: [],
       },
       row6: {
         status: false,
         word: "",
-        means: [],
       },
     });
+    setRowMeans([]);
   };
 
   return (
