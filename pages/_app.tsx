@@ -24,6 +24,17 @@ export default function App({ Component, pageProps }: AppProps) {
     setLoading(false);
   }, [locale]);
 
+  useEffect(() => {
+    function preventTouchMove(e: any) {
+      e.preventDefault();
+    }
+
+    window.addEventListener("touchmove", preventTouchMove, { passive: false });
+
+    return () => {
+      window.removeEventListener("touchmove", preventTouchMove);
+    };
+  }, []);
   if (loading) {
     return;
   }
