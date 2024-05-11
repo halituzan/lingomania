@@ -1,6 +1,4 @@
-import {
-  winHandler
-} from "@/lib/features/letter/letterSlice";
+import { winHandler } from "@/lib/features/letter/letterSlice";
 import { Icon } from "@iconify/react";
 import axios from "axios";
 import React, { useEffect } from "react";
@@ -162,8 +160,6 @@ const Keyboard = ({
 
     for (const word of wordList) {
       if (word) {
-       
-
         for (let i = 0; i < selectWord.length; i++) {
           let char1 = selectWord[i];
           let char2 = word[i];

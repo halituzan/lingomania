@@ -34,6 +34,47 @@ const Keyboard = ({
     return rowOk[i].word;
   });
 
+  function compareWords(main: string, word: string) {
+    let result = [];
+
+    // Her bir harfin frekansını tutacak objeler oluşturuluyor
+    let freq1: any = {};
+    let freq2: any = {};
+
+    // main ve word'nin harf frekanslarını hesapla
+    for (let char of main) {
+      freq1[char] = (freq1[char] || 0) + 1;
+    }
+
+    for (let char of word) {
+      freq2[char] = (freq2[char] || 0) + 1;
+    }
+
+    // Her harfi kontrol et
+    for (let i = 0; i < Math.max(main.length, word.length); i++) {
+      let char1 = main[i];
+      let char2 = word[i];
+
+      if (char1 === char2) {
+        result.push("correct");
+      } else {
+        // Her iki karakter de varsa
+        if (freq1[char1] && freq2[char2]) {
+          // Eşleşen harfleri düşür
+          freq1[char1]--;
+          freq2[char2]--;
+          result.push("wrong");
+        }
+        // Sadece biri varsa
+        else if (freq1[char1] || freq2[char2]) {
+          result.push("none");
+        }
+      }
+    }
+
+    return result;
+  }
+
   const handleEnterClick = (
     event:
       | React.MouseEvent<HTMLButtonElement>
@@ -70,7 +111,12 @@ const Keyboard = ({
     if (targetKey) {
       setRowOK({
         ...rowOk,
-        [targetKey]: { ...rowOk[targetKey], status: false, word: keyboardWord },
+        [targetKey]: {
+          ...rowOk[targetKey],
+          status: false,
+          word: keyboardWord,
+          evolation: compareWords(selectWord, keyboardWord),
+        },
         ...(nextKey
           ? { [nextKey]: { ...rowOk[nextKey], status: true, word: "" } }
           : {}),
@@ -97,6 +143,8 @@ const Keyboard = ({
     }
     setKeyboardWord((prev: string) => prev.slice(0, -1));
   };
+  
+  
 
   useEffect(() => {
     function keyDownHandler(e: any) {
@@ -116,7 +164,7 @@ const Keyboard = ({
       document.removeEventListener("keydown", keyDownHandler);
     };
   });
-
+  console.log(rowOk);
   const letterButton = (item: string) => {
     const isUsed = wordList.some((i) => i.includes(item));
     const correctResult = [];

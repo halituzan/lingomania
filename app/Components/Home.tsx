@@ -160,6 +160,7 @@ const Home = (props: Props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  console.log(rowOk);
 
   return (
     <div
