@@ -20,44 +20,6 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
   const changingClass = (n: number) => {
     const isLetter = selectWord[n] === word[n];
     const isInclude = selectWord.includes(word[n]);
-    // let isInclude = false;
-
-    // // Aynı karakterin ana kelime boyunca kaç kez geçtiğini kontrol eden bir koşul
-    // const sameCharCount = (char: string) => {
-    //   let count = 0;
-    //   for (let i = 0; i < selectWord.length; i++) {
-    //     if (selectWord[i] === char) {
-    //       count++;
-    //     }
-    //   }
-    //   return count;
-    // };
-
-    // // İlk harf için isInclude durumu belirlemek için ayrı bir koşul
-    // if (n === 0) {
-    //   // İlk harf için, ana kelime boyunca döngü ile kontrol ediyoruz
-    //   for (let i = 1; i < selectWord.length; i++) {
-    //     if (selectWord[i] === word[n]) {
-    //       // Eğer ana kelimede aynı karakter bulunursa ve bu karakterin ana kelimeye tam olarak bir kere girdiği durumlar için isInclude true olmalı
-    //       if (sameCharCount(word[n]) === 1) {
-    //         isInclude = true;
-    //         break;
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   // Diğer harfler için isInclude durumu belirlemek için döngü
-    //   for (let i = 0; i < selectWord.length; i++) {
-    //     if (i !== n && selectWord[i] === word[n]) {
-    //       // Eğer ana kelimede aynı karakter bulunursa ve bu karakterin ana kelimeye tam olarak bir kere girdiği durumlar için isInclude true olmalı
-    //       if (sameCharCount(word[n]) === 1) {
-    //         isInclude = true;
-    //         break;
-    //       }
-    //     }
-    //   }
-    // }
-
     return `
     ${
       isOk && !win

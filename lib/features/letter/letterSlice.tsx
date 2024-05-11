@@ -8,6 +8,14 @@ interface LetterStates {
   filterWords: string[] | null[];
   win: string;
   result: object;
+  matrix: string[][];
+  solves: string[][] | number[][];
+  row: number;
+  keyset: {
+    correct: string[];
+    wrong: string[];
+    none: string[];
+  };
 }
 
 const initialState: LetterStates = {
@@ -16,6 +24,26 @@ const initialState: LetterStates = {
   selectWord: "",
   win: "",
   result: {},
+  row: 0,
+  keyset: {
+    correct: [],
+    wrong: [],
+    none: [],
+  },
+  matrix: [
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+  ],
+  solves: [
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+  ],
 };
 
 const letterSlice = createSlice({
@@ -37,6 +65,17 @@ const letterSlice = createSlice({
     winHandler: (state, action: PayloadAction<string>) => {
       state.win = action.payload;
     },
+    matrixHandler: (state, { payload }) => {
+      const { index, status } = payload;
+      //* status 1 as correct
+      //* status 2 as wrong
+      //* status 3 as none
+      state.matrix[index] = status;
+    },
+    solvesHandler: (state, { payload }) => {
+      const { index, word } = payload;
+      state.solves[index] = word.join("");
+    },
   },
 });
 
@@ -46,6 +85,7 @@ export const {
   setSelectWord,
   winHandler,
   setResult,
+  matrixHandler,
 } = letterSlice.actions;
 
 export default letterSlice.reducer;

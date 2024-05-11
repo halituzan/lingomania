@@ -96,6 +96,7 @@ const Home = (props: Props) => {
       word: "",
     },
   });
+
   const [rowMeans, setRowMeans] = useState([]);
 
   const newGame = async () => {
