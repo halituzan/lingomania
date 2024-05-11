@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Icon } from "@iconify/react";
 type Props = {
@@ -11,6 +11,7 @@ type Props = {
 
 function Row({ isOk, keyboardWord, word, means }: Props) {
   const [showPopover, setShowPopover] = useState(false);
+
   const { firstLetter, selectWord, filterWords, win } = useSelector(
     (state: any) => state.letter
   );
@@ -37,6 +38,24 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
     }
     ${divClass}`;
   };
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const handleClickOutside = (event: MouseEvent) => {
+    // Assert event.target to be of type EventTarget
+    if (!popoverRef.current) return;
+    if (
+      popoverRef.current &&
+      !popoverRef?.current?.contains(event.target as Node)
+    ) {
+      setShowPopover(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className='grid grid-cols-5 gap-1 md:gap-4 mb-2'>
@@ -57,7 +76,7 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
           )}
         </p>
         {showPopover && means.length > 0 && (
-          <div className='absolute top-2 left-5 min-w-[250px] z-50 min-h-[300px] max-h-[400px] p-4 rounded-xl rounded-tl-none shadow-md shadow-black bg-slate-600 overflow-y-auto'>
+          <div ref={popoverRef} className='absolute top-2 left-5 min-w-[250px] z-50 min-h-[300px] max-h-[400px] p-4 rounded-xl rounded-tl-none shadow-md shadow-black bg-slate-600 overflow-y-auto'>
             <div>
               <ul>
                 {means?.map(
