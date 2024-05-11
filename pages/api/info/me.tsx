@@ -1,6 +1,6 @@
 import connectDBV2 from "@/PageApi/db/connection";
 import User from "@/PageApi/models/userInfoModel";
-import { verify } from "jsonwebtoken";
+import { JwtPayload, verify } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 
 connectDBV2();
@@ -11,8 +11,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!token) {
     return res.status(401).json({ message: "Giriş yetkiniz bulunmamaktadır!" });
   }
-
-  const { userId } = verify(token, process.env.NEXT_PUBLIC_JWT_SECRET);
+  if (!process.env.NEXT_PUBLIC_JWT_SECRET) {
+    return;
+  }
+  const { userId } = verify(
+    token,
+    process.env.NEXT_PUBLIC_JWT_SECRET
+  ) as JwtPayload;
   // TODO: Kullanıcı Kontrolü: userId dönmezse token geçersiz.
   if (!userId) {
     return res
