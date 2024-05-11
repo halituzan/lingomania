@@ -74,26 +74,32 @@ const Home = (props: Props) => {
     row1: {
       status: true,
       word: "",
+      solves: [],
     },
     row2: {
       status: false,
       word: "",
+      solves: [],
     },
     row3: {
       status: false,
       word: "",
+      solves: [],
     },
     row4: {
       status: false,
       word: "",
+      solves: [],
     },
     row5: {
       status: false,
       word: "",
+      solves: [],
     },
     row6: {
       status: false,
       word: "",
+      solves: [],
     },
   });
   const [rowMeans, setRowMeans] = useState([]);
@@ -117,26 +123,32 @@ const Home = (props: Props) => {
       row1: {
         status: true,
         word: "",
+        solves: [],
       },
       row2: {
         status: false,
         word: "",
+        solves: [],
       },
       row3: {
         status: false,
         word: "",
+        solves: [],
       },
       row4: {
         status: false,
         word: "",
+        solves: [],
       },
       row5: {
         status: false,
         word: "",
+        solves: [],
       },
       row6: {
         status: false,
         word: "",
+        solves: [],
       },
     });
     setRowMeans([]);
@@ -160,7 +172,6 @@ const Home = (props: Props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(rowOk);
 
   return (
     <div
@@ -170,36 +181,42 @@ const Home = (props: Props) => {
       <div className='w-[330px] h-[390px] md:w-auto md:h-auto'>
         <Row
           keyboardWord={keyboardWord}
+          solves={rowOk.row1?.solves ? rowOk.row1.solves : []}
           means={rowMeans[0] ? rowMeans[0] : []}
           isOk={rowOk.row1.status}
           word={rowOk.row1.word}
         />
         <Row
           keyboardWord={keyboardWord}
+          solves={rowOk?.row2.solves ? rowOk.row2.solves : []}
           means={rowMeans[1] ? rowMeans[1] : []}
           isOk={rowOk.row2.status}
           word={rowOk.row2.word}
         />
         <Row
           keyboardWord={keyboardWord}
+          solves={rowOk?.row3.solves ? rowOk.row3.solves : []}
           means={rowMeans[2] ? rowMeans[2] : []}
           isOk={rowOk.row3.status}
           word={rowOk.row3.word}
         />
         <Row
           keyboardWord={keyboardWord}
+          solves={rowOk?.row4.solves ? rowOk.row4.solves : []}
           means={rowMeans[3] ? rowMeans[3] : []}
           isOk={rowOk.row4.status}
           word={rowOk.row4.word}
         />
         <Row
           keyboardWord={keyboardWord}
+          solves={rowOk?.row5.solves ? rowOk.row5.solves : []}
           means={rowMeans[4] ? rowMeans[4] : []}
           isOk={rowOk.row5.status}
           word={rowOk.row5.word}
         />
         <Row
           keyboardWord={keyboardWord}
+          solves={rowOk?.row6.solves ? rowOk.row6.solves : []}
           means={rowMeans[5] ? rowMeans[5] : []}
           isOk={rowOk.row6.status}
           word={rowOk.row6.word}

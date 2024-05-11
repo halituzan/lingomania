@@ -6,9 +6,10 @@ type Props = {
   word: string;
   isOk: boolean;
   means?: any;
+  solves: any;
 };
 
-function Row({ isOk, keyboardWord, word, means }: Props) {
+function Row({ isOk, keyboardWord, word, means, solves }: Props) {
   const [showPopover, setShowPopover] = useState(false);
 
   const { firstLetter, selectWord, filterWords, win } = useSelector(
@@ -18,59 +19,26 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
   const divClass =
     "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-14 h-14 letter";
   const changingClass = (n: number) => {
-    const isLetter = selectWord[n] === word[n];
-    const isInclude = selectWord.includes(word[n]);
-    // let isInclude = false;
-
-    // // Aynı karakterin ana kelime boyunca kaç kez geçtiğini kontrol eden bir koşul
-    // const sameCharCount = (char: string) => {
-    //   let count = 0;
-    //   for (let i = 0; i < selectWord.length; i++) {
-    //     if (selectWord[i] === char) {
-    //       count++;
-    //     }
-    //   }
-    //   return count;
-    // };
-
-    // // İlk harf için isInclude durumu belirlemek için ayrı bir koşul
-    // if (n === 0) {
-    //   // İlk harf için, ana kelime boyunca döngü ile kontrol ediyoruz
-    //   for (let i = 1; i < selectWord.length; i++) {
-    //     if (selectWord[i] === word[n]) {
-    //       // Eğer ana kelimede aynı karakter bulunursa ve bu karakterin ana kelimeye tam olarak bir kere girdiği durumlar için isInclude true olmalı
-    //       if (sameCharCount(word[n]) === 1) {
-    //         isInclude = true;
-    //         break;
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   // Diğer harfler için isInclude durumu belirlemek için döngü
-    //   for (let i = 0; i < selectWord.length; i++) {
-    //     if (i !== n && selectWord[i] === word[n]) {
-    //       // Eğer ana kelimede aynı karakter bulunursa ve bu karakterin ana kelimeye tam olarak bir kere girdiği durumlar için isInclude true olmalı
-    //       if (sameCharCount(word[n]) === 1) {
-    //         isInclude = true;
-    //         break;
-    //       }
-    //     }
-    //   }
-    // }
+    console.log("solves", solves);
+    console.log("solves", solves[n]);
 
     return `
     ${
       isOk && !win
-        ? isLetter
+        ? solves[n] == 1
           ? "bg-green-700 text-white"
-          : isInclude
+          : solves[n] == 2
           ? "bg-yellow-400 text-black"
-          : "bg-slate-300 text-black"
-        : isLetter
+          : solves[n] == 3
+          ? "bg-slate-700 text-white"
+          : "bg-slate-300 text-white"
+        : solves[n] == 1
         ? "bg-green-700 text-white"
-        : isInclude
+        : solves[n] == 2
         ? "bg-yellow-400 text-black"
-        : "bg-slate-700 text-white"
+        : solves[n] == 3
+        ? "bg-slate-700 text-white"
+        : "bg-slate-700"
     }
     ${divClass}`;
   };
@@ -95,7 +63,9 @@ function Row({ isOk, keyboardWord, word, means }: Props) {
 
   return (
     <div className='grid grid-cols-5 gap-1 md:gap-4 mb-2'>
-      <div className={`bg-green-700 text-white relative ${divClass}`}>
+      <div
+        className={` bg-green-700 text-white relative ${divClass}`}
+      >
         <p className='z-0'>
           {firstLetter}
           {means?.length > 0 && (

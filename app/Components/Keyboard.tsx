@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import randomLetter from "../Helpers/randomLetter";
 import { selectCurrentWord, wordsFilter } from "../Helpers/wordsFilter";
+import { getGuessStatus } from "../Helpers/guessStatus";
 
 type Props = {
   keyboardWord: string;
@@ -88,9 +89,17 @@ const Keyboard = ({
           ...rowOk[targetKey],
           status: false,
           word: keyboardWord,
+          solves: getGuessStatus(keyboardWord, selectWord),
         },
         ...(nextKey
-          ? { [nextKey]: { ...rowOk[nextKey], status: true, word: "" } }
+          ? {
+              [nextKey]: {
+                ...rowOk[nextKey],
+                status: true,
+                word: "",
+                solves: [],
+              },
+            }
           : {}),
       });
     }
