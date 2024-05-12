@@ -1,16 +1,18 @@
 import connectDBV2 from "@/PageApi/db/connection";
+import sendGrid from "@/PageApi/email/sendGrid";
+// import sendConfirmationEmail from "@/PageApi/email/confirmation";
 import Game from "@/PageApi/models/userGameModel";
 import User from "@/PageApi/models/userInfoModel";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
-
 connectDBV2();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { firstName, lastName, email, password, userName } = req.body;
 
   if (!firstName || !lastName || !email || !password || !userName) {
-    res.json({
+    res.status(404).json({
       message: "Lütfen gerekli alanları doldurun!",
       status: false,
     });
@@ -18,21 +20,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     // Check if user already exists
-    const user = await User.findOne({
-      $or: [{ email: email }],
-    });
-
+    const user = await User.findOne({ email: email });
     if (user?.email === email) {
-      res.json({
+      res.status(406).json({
         message: "Bu Email İle Kullanıcı Mevcut",
         status: false,
       });
     }
 
+    const token = jwt.sign(
+      { email: email },
+      process.env.NEXT_PUBLIC_JWT_SECRET || ""
+    );
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
     // Create new user
     const newUser = new User({
       firstName,
@@ -40,7 +42,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       email,
       password: hashedPassword,
       userName,
+      tkn: token || "TOKEN",
     });
+
     await newUser
       .save()
       .then((user: { _id: string }) => {
@@ -55,6 +59,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .catch((error: any) => {
         console.error("Hata:", error);
       });
+    await sendGrid("verify", email, { message: token });
     res
       .status(201)
       .json({ message: "Kullanıcı Başarıyla Oluşturuldu", status: true });

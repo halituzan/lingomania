@@ -12,6 +12,7 @@ const gameSchema = new Schema({
         word: String,
         date: Date,
         step: Number,
+        
         wordPoint: Number,
         letterPoint: Number,
         time: Number,
@@ -35,6 +36,10 @@ const gameSchema = new Schema({
     type: String,
     default: "",
   },
+  rowMeans: {
+    type: Array,
+    default: [],
+  },
   lastGame: {
     // oyunda nerede kaldığını gösterir.
     // Değişkendir o anki oyun bittiğinde sıfırlanması lazım.
@@ -43,32 +48,32 @@ const gameSchema = new Schema({
       step1: {
         word: String,
         status: Boolean,
-        means: Array,
+        solves: Array,
       },
       step2: {
         word: String,
         status: Boolean,
-        means: Array,
+        solves: Array,
       },
       step3: {
         word: String,
         status: Boolean,
-        means: Array,
+        solves: Array,
       },
       step4: {
         word: String,
         status: Boolean,
-        means: Array,
+        solves: Array,
       },
       step5: {
         word: String,
         status: Boolean,
-        means: Array,
+        solves: Array,
       },
       step6: {
         word: String,
         status: Boolean,
-        means: Array,
+        solves: Array,
       },
     },
     default: {

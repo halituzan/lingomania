@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
         ) : (
           <AuthLayout>
             <Component {...pageProps} />
-            <Toaster position='top-center' reverseOrder={false} />
+            <Toaster position='top-right' reverseOrder={false} />
           </AuthLayout>
         )}
       </main>

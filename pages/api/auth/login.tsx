@@ -14,18 +14,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({ message: "Email veya Şifreniz Yanlış", status: false });
+      return res.status(400).json({ message: "Email veya Şifreniz Yanlış", status: false });
     }
 
     // Check if password is correct
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.json({ message: "Email veya Şifreniz Yanlış", status: false });
+      return res
+        .status(400)
+        .json({ message: "Email veya Şifreniz Yanlış", status: false });
     }
     // Check if verify is correct
     if (!user.isActive) {
-      return res.json({
+      return res.status(400).json({
         message: "Eposta Adresiniz Onaylanmamıştır.",
         status: false,
       });
