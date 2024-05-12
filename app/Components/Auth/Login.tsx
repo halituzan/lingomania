@@ -71,7 +71,7 @@ const Login = (props: Props) => {
               onChange={valueHandler}
             />
             <p className='text-red-500 text-xs italic'>
-              Please enter a correct username and password.
+              Please enter a correct email and password.
             </p>
           </div>
           <div className='flex items-center justify-between'>
