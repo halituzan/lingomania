@@ -19,9 +19,7 @@ function Row({ isOk, keyboardWord, word, means, solves }: Props) {
   const divClass =
     "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-14 h-14 letter";
   const changingClass = (n: number) => {
-    console.log("solves", solves);
-    console.log("solves", solves[n]);
-
+  
     return `
     ${
       isOk && !win

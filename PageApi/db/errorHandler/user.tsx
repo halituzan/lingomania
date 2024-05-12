@@ -8,7 +8,6 @@ const userControl = (token: string, res: any) => {
     token,
     process.env.NEXT_PUBLIC_JWT_SECRET
   ) as JwtPayload;
-  console.log("userId", userId);
 
   // TODO: Kullanıcı Kontrolü: userId dönmezse token geçersiz.
   if (!userId) {

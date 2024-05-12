@@ -8,7 +8,6 @@ connectDBV2();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { firstName, lastName, email, password, userName } = req.body;
-  console.log("req.body", req.body);
 
   if (!firstName || !lastName || !email || !password || !userName) {
     res.json({
@@ -19,11 +18,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     // Check if user already exists
-
     const user = await User.findOne({
       $or: [{ email: email }],
     });
-    console.log("user", user);
 
     if (user?.email === email) {
       res.json({
@@ -35,7 +32,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log(1);
 
     // Create new user
     const newUser = new User({
@@ -59,7 +55,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .catch((error: any) => {
         console.error("Hata:", error);
       });
-    console.log(2);
     res
       .status(201)
       .json({ message: "Kullanıcı Başarıyla Oluşturuldu", status: true });

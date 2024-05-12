@@ -19,12 +19,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     let query: any = {};
 
-    query.$regex = `^[a-zA-Z]{${letter_count}}$`;
+    query.$regex = `^[a-zA-ZğĞüÜşŞıİöÖçÇ]{${letter_count}}$`;
 
     const data = await Libraries.find({
-      madde_duz: query,
+      madde: query,
     });
-    const word3 = data.map((doc: any) => doc.madde_duz.toLowerCase());
+    const word3 = data.map((doc: any) => doc.madde.toLocaleLowerCase('tr'));
 
     return res.json({ word3 });
   } catch (error) {

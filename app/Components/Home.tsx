@@ -259,7 +259,7 @@ const Home = (props: Props) => {
           <p className='text-white text-2xl my-2 flex items-center'>Kelime: </p>
           <div className='text-white  my-2 flex items-center '>
             <p className='text-2xl uppercase'>{selectWord}</p>
-            {result.means?.length > 0 && (
+            {result?.means?.length > 0 && (
               <div className='ml-4 rounded-full bg-green-600 hover:bg-green-800 p-2 cursor-pointer relative'>
                 <Icon
                   icon='akar-icons:chat-question'

@@ -164,7 +164,6 @@ const Keyboard = ({
       document.removeEventListener("keydown", keyDownHandler);
     };
   });
-  console.log(rowOk);
   const letterButton = (item: string) => {
     const isUsed = wordList.some((i) => i.includes(item));
     const correctResult = [];

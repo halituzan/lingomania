@@ -12,8 +12,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const user = await User.findOne({ _id: userId });
-    console.log(user);
-
     await User.findOneAndUpdate(
       { _id: userId },
       {

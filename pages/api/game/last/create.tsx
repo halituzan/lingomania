@@ -22,11 +22,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   updateQuery[`lastGame.step${step}.status`] = false;
   updateQuery[`lastGame.step${step + 1}.status`] = true;
 
-//   //   console.log(updateQuery);
-//   const game = await Game.findOne({ userId: userId });
-//   console.log("game", game);
-//   console.log("userId", userId);
-
   try {
     await Game.findOneAndUpdate(
       { userId: userId },
