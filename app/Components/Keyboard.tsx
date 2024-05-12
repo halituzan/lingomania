@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import randomLetter from "../Helpers/randomLetter";
 import { selectCurrentWord, wordsFilter } from "../Helpers/wordsFilter";
-import { getGuessStatus } from "../Helpers/guessStatus";
+import { getGuessStatus, pointHandle } from "../Helpers/guessStatus";
 
 type Props = {
   keyboardWord: string;
@@ -90,6 +90,7 @@ const Keyboard = ({
           status: false,
           word: keyboardWord,
           solves: getGuessStatus(keyboardWord, selectWord),
+          points: pointHandle(keyboardWord, selectWord),
         },
         ...(nextKey
           ? {
@@ -108,6 +109,32 @@ const Keyboard = ({
 
     if (keyboardWord === selectWord) {
       dispatch(winHandler(selectWord));
+      let point = parseInt(window.localStorage.getItem("totalPoint") || "0");
+      
+      switch (targetKey) {
+        case "row1":
+          point = point + 600;
+          break;
+        case "row2":
+          point = point + 500;
+          break;
+        case "row3":
+          point = point + 400;
+          break;
+        case "row4":
+          point = point + 300;
+          break;
+        case "row5":
+          point = point + 200;
+          break;
+        case "row6":
+          point = point + 100;
+          break;
+        default:
+          break;
+      }
+
+      window.localStorage.setItem("totalPoint", point.toString());
       gameClear();
     } else {
       if (rowOk.row6.status && keyboardWord !== selectWord) {
@@ -203,9 +230,10 @@ const Keyboard = ({
   return (
     <div className='px-2 w-full h-[200px] mt-2 flex flex-col'>
       <div className='flex my-auto mb-2 flex-1'>
-        {letterLine1.map((item) => {
+        {letterLine1.map((item, index) => {
           return (
             <button
+              key={index}
               disabled={win}
               onClick={handleClick}
               className={letterButton(item)}
@@ -217,9 +245,10 @@ const Keyboard = ({
       </div>
       <div className='flex my-auto mb-2 flex-1'>
         <div className='flex-[0.5]'></div>
-        {letterLine2.map((item) => {
+        {letterLine2.map((item, index) => {
           return (
             <button
+              key={index}
               disabled={win}
               onClick={handleClick}
               className={letterButton(item)}
@@ -235,6 +264,7 @@ const Keyboard = ({
           if (index == 0) {
             return (
               <button
+                key={index}
                 disabled={win}
                 onClick={handleClearClick}
                 className={
@@ -248,6 +278,7 @@ const Keyboard = ({
           } else if (letterLine3.length - 1 == index) {
             return (
               <button
+                key={index}
                 disabled={win}
                 onClick={handleDeleteClick}
                 className={bigButton}
@@ -258,6 +289,7 @@ const Keyboard = ({
           } else {
             return (
               <button
+                key={index}
                 disabled={win}
                 onClick={handleClick}
                 className={letterButton(item)}

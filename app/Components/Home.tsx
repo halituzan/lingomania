@@ -21,10 +21,12 @@ const Home = (props: Props) => {
   const { t } = useTranslation("common");
   const [showPopover, setShowPopover] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [totalPoint, setTotalPoint] = useState<any>("");
   const dispatch = useDispatch();
   const { firstLetter, selectWord, result, win } = useSelector(
     (state: any) => state.letter
   );
+  const tp = window.localStorage.getItem("totalPoint");
 
   const getWords = async (word: string) => {
     try {
@@ -35,8 +37,19 @@ const Home = (props: Props) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    setTotalPoint(tp?.toString());
+  }, [tp]);
+
   useEffect(() => {
     const localLetter = window.localStorage.getItem("letter");
+
+    if (!tp) {
+      window.localStorage.setItem("totalPoint", "0");
+    }
+
+    setTotalPoint(parseInt(window.localStorage.getItem("totalPoint") || "0"));
 
     const word = window.localStorage.getItem("word");
     const letter = randomLetter();
@@ -178,6 +191,9 @@ const Home = (props: Props) => {
       className='flex flex-col justify-center items-center w-full text-center'
       style={{ height: "calc(100% - 95px)" }}
     >
+      <div className='w-full flex justify-center items-center h-10 mb-4'>
+        <p className='text-white text-4xl'> Puan: {totalPoint}</p>
+      </div>
       <div className='w-[330px] h-[390px] md:w-auto md:h-auto'>
         <Row
           keyboardWord={keyboardWord}
