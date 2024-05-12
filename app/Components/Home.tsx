@@ -192,7 +192,7 @@ const Home = (props: Props) => {
       style={{ height: "calc(100% - 95px)" }}
     >
       <div className='w-full flex justify-center items-center h-10 mb-4'>
-        <p className='text-white text-4xl'> Puan: {totalPoint}</p>
+        <p className='text-white text-xl'> Puan: {totalPoint}</p>
       </div>
       <div className='w-[330px] h-[390px] md:w-auto md:h-auto'>
         <Row
