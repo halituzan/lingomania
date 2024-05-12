@@ -59,7 +59,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .catch((error: any) => {
         console.error("Hata:", error);
       });
-    await sendGrid("verify", email, { message: token });
+    await sendGrid("verify", email, token);
     res
       .status(201)
       .json({ message: "Kullanıcı Başarıyla Oluşturuldu", status: true });

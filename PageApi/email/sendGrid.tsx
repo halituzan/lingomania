@@ -8,24 +8,17 @@ const sendGrid = async (type: string, email: string, data: any) => {
     templateId: "",
     dynamicTemplateData: {},
   };
-  const msg = {
-    to: "halit.uzan@gmail.com", // Change to your recipient
-    from: email, // Change to your verified sender
-    subject: "Sending with SendGrid is Fun",
-    text: "and easy to do anywhere, even with Node.js",
-    html: "<strong>and easy to do anywhere, even with Node.js</strong>",
-  };
 
   if (type === "verify") {
-    options.templateId = "";
+    options.templateId = "d-16866e78f55d49069411e9bcfc7bb7f8";
     options.dynamicTemplateData = {
-      message: data.message,
+      data,
     };
   }
 
   console.log(options);
   return client
-    .send(msg)
+    .send(options)
     .then((r: any) => {
       console.log("E-Posta Gönderildi!");
     })
