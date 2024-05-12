@@ -1,4 +1,4 @@
-import words from "./words";
+import words from "./word5";
 
 export const wordsFilter = (letter: string) => {
   return words.filter((i) => i.startsWith(letter));

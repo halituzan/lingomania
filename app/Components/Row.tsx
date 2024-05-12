@@ -31,7 +31,7 @@ function Row({ isOk, keyboardWord, word, means, solves }: Props) {
           ? "bg-yellow-400 text-black"
           : solves[n] == 3
           ? "bg-slate-700 text-white"
-          : "bg-slate-300 text-white"
+          : "bg-slate-300 text-black"
         : solves[n] == 1
         ? "bg-green-700 text-white"
         : solves[n] == 2
