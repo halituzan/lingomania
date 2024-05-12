@@ -9,7 +9,8 @@ export const meService = async () => {
     console.log(error);
     if (error.response.status == 406) {
       location.href = "/login";
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     }
+    location.href = "/login";
   }
 };
