@@ -26,16 +26,16 @@ function Row({ isOk, keyboardWord, word, means, solves }: Props) {
     ${
       isOk && !win
         ? solves[n] == 1
-          ? "bg-green-700 text-white"
+          ? "bg-green-700 text-white animate-hflip"
           : solves[n] == 2
-          ? "bg-yellow-400 text-black"
+          ? "bg-yellow-400 text-black animate-headShake"
           : solves[n] == 3
           ? "bg-slate-700 text-white"
-          : "bg-slate-300 text-black"
+          : "bg-slate-300 text-black animate-heartBeat"
         : solves[n] == 1
-        ? "bg-green-700 text-white"
+        ? "bg-green-700 text-white animate-hflip"
         : solves[n] == 2
-        ? "bg-yellow-400 text-black"
+        ? "bg-yellow-400 text-black animate-headShake"
         : solves[n] == 3
         ? "bg-slate-700 text-white"
         : "bg-slate-700"
