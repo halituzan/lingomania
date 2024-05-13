@@ -23,6 +23,10 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Şifre girmeniz gerekiyor"],
   },
+  tkn: {
+    type: String,
+    default: "",
+  },
   profileImage: {
     type: String,
     default: "1",
@@ -45,7 +49,6 @@ const userSchema = new Schema({
     type: Number,
     default: 1,
   },
- 
 });
 
 const User = mongoose.models?.User || mongoose.model("User", userSchema);

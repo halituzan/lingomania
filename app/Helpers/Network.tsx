@@ -6,10 +6,14 @@ const network = class NETWORK {
       baseURL: "/api",
     });
     this.network.interceptors.request.use(
-      async (config: { headers: { authorization: string } }) => {
-        const token = localStorage.getItem("token");
-        if (token) {
-          config.headers.authorization = `Bearer ${token}`;
+      async (config: {
+        headers: {
+          device: string;
+        };
+      }) => {
+        const device = localStorage.getItem("device");
+        if (device) {
+          config.headers.device = device;
         }
         return config;
       }
@@ -19,8 +23,7 @@ const network = class NETWORK {
       null,
       (error: { response: { status: number } }) => {
         if (error.response.status === 401) {
-          localStorage.removeItem("token");
-          location.href = "/auth";
+          location.href = "/login";
         }
         return Promise.reject(error);
       }
