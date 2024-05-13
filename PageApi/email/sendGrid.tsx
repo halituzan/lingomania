@@ -5,8 +5,8 @@ const sendGrid = async (type: string, email: string, data: any) => {
   let options = {
     to: email,
     from: "halit.uzan@gmail.com",
-    templateId: "",
-    dynamicTemplateData: {},
+    templateId: "d-16866e78f55d49069411e9bcfc7bb7f8",
+    dynamicTemplateData: { data },
   };
 
   if (type === "verify") {
