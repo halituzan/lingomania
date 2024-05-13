@@ -7,8 +7,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userName } = req.query;
 
   try {
-    const user = await User.findOne({ userName });
-    console.log(user);
+    const user = await User.findOne({ userName: userName });
 
     if (!user) {
       res
