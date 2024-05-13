@@ -21,10 +21,11 @@ const MainComponent = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    checkMe();
-  }, []);
-  return info && info?.isActive ? <Home /> : <Loader />;
+  // useEffect(() => {
+  //   checkMe();
+  // }, []);
+  // return info && info?.isActive ? <Home /> : <Loader />;
+  return <Home />;
 };
 
 export default MainComponent;
