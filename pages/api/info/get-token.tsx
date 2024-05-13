@@ -5,7 +5,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { accessToken } = req.query;
-  console.log("accessToken===>>>",accessToken);
   
   try {
     const user = await User.findOne({ tkn: accessToken });
@@ -23,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
       res.status(200).json({ message: "Token Geçerli", status: true });
     } else {
-      res.status(405).json({ message: "Kullanıcı zaten onaylanmış." });
+      res.status(200).json({ message: "Kullanıcı zaten onaylanmış." });
     }
   } catch (error) {
     return res.status(500).json({ message: error });

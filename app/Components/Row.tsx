@@ -11,15 +11,10 @@ type Props = {
 
 function Row({ isOk, keyboardWord, word, means, solves }: Props) {
   const [showPopover, setShowPopover] = useState(false);
-
-  const { firstLetter, selectWord, filterWords, win } = useSelector(
-    (state: any) => state.letter
-  );
-
+  const { firstLetter, win } = useSelector((state: any) => state.letter);
   const divClass =
     "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-14 h-14 letter";
   const changingClass = (n: number) => {
-  
     return `
     ${
       isOk && !win
@@ -42,7 +37,6 @@ function Row({ isOk, keyboardWord, word, means, solves }: Props) {
   };
   const popoverRef = useRef<HTMLDivElement>(null);
   const handleClickOutside = (event: MouseEvent) => {
-    // Assert event.target to be of type EventTarget
     if (!popoverRef.current) return;
     if (
       popoverRef.current &&
@@ -61,9 +55,7 @@ function Row({ isOk, keyboardWord, word, means, solves }: Props) {
 
   return (
     <div className='grid grid-cols-5 gap-1 md:gap-4 mb-2'>
-      <div
-        className={` bg-green-700 text-white relative ${divClass}`}
-      >
+      <div className={` bg-green-700 text-white relative ${divClass}`}>
         <p className='z-0'>
           {firstLetter}
           {means?.length > 0 && (

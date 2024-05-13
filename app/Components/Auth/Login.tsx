@@ -1,7 +1,6 @@
 import { loginService } from "@/app/Services/auth";
 import { meService } from "@/app/Services/me";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 
 type Props = {};
 

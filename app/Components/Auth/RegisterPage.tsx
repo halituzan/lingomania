@@ -1,6 +1,7 @@
 import { registerService } from "@/app/Services/auth";
-import React, { useState } from "react";
-
+import React, { useEffect, useMemo, useState } from "react";
+import { debounce } from "lodash";
+import Network from "@/app/Helpers/Network";
 const RegisterPage = () => {
   const [register, setRegister] = useState({
     firstName: "",
@@ -10,12 +11,18 @@ const RegisterPage = () => {
     password: "",
   });
 
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  function validateEmail(email: string): boolean {
+    return emailRegex.test(email);
+  }
+  const [usenameChecker, setUsenameChecker] = useState(false);
+
   const valueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target instanceof HTMLInputElement) {
       setRegister({ ...register, [e.target.name]: e.target.value });
     }
   };
-
   const registerHandler = async () => {
     try {
       const reg = await registerService(register);
@@ -26,6 +33,29 @@ const RegisterPage = () => {
     } catch (error: any) {
       console.log(error);
     }
+  };
+  const searchData = async (text: string) => {
+    if (text) {
+      try {
+        const res = await Network.getData(
+          `/info/check-username?userName=${text}`
+        );
+        console.log(res);
+        if (res.status) {
+          setUsenameChecker(false);
+        } else {
+          setUsenameChecker(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+    }
+  };
+  const debouncedSearch = debounce(searchData, 500);
+  const handleInputFinish = () => {
+    // debounce edilmiş searchData fonksiyonunu çağır
+    debouncedSearch(register.userName);
   };
 
   return (
@@ -47,7 +77,12 @@ const RegisterPage = () => {
               placeholder='Kullanıcı Adı'
               value={register.userName}
               onChange={valueHandler}
+              onBlur={handleInputFinish}
             />
+
+            <div className={`${usenameChecker ? "text-red-600" : ""} text-sm`}>
+              {usenameChecker && "Kullanıcı Adı Mevcut"}
+            </div>
           </div>
           <div className='mb-4 flex justify-between items-center'>
             <div className='w-[48%]'>
@@ -99,7 +134,7 @@ const RegisterPage = () => {
               type='email'
               placeholder='Email'
               value={register.email}
-              onChange={valueHandler}
+              onChange={valueHandler} // ?
             />
           </div>
           <div className='mb-6'>
@@ -121,14 +156,23 @@ const RegisterPage = () => {
           </div>
           <div className='flex items-center justify-between'>
             <button
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              className='bg-blue-500 hover:bg-blue-700 disabled:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               type='button'
+              disabled={
+                usenameChecker ||
+                !register.firstName ||
+                !register.lastName ||
+                !register.password ||
+                !register.email ||
+                !register.userName ||
+                !validateEmail(register.email)
+              }
               onClick={registerHandler}
             >
               Register
             </button>
             <a
-              className='inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800'
+              className='inline-block  align-baseline font-bold text-sm text-blue-500 hover:text-blue-800'
               href='/login'
             >
               Sign In
