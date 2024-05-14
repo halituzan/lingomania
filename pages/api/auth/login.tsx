@@ -1,5 +1,4 @@
 import connectDBV2 from "@/PageApi/db/connection";
-
 import Users from "@/PageApi/models/userInfoModel";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -54,13 +53,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       if (device === "mobile") {
-        return res.status(200).json({
+        return res.json({
           message: "Giriş Başarılı",
           status: true,
           token: token,
         });
       }
-      res.status(200).json({
+      res.json({
         message: "Giriş Başarılı",
         status: true,
       });
