@@ -1,3 +1,4 @@
+import Loader from "@/app/Components/Loader";
 import Network from "@/app/Helpers/Network";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -5,7 +6,8 @@ import React, { useEffect, useState } from "react";
 type Props = {};
 
 const Verify = (props: Props) => {
-  const [verify, setVerify] = useState(false);
+  const [verify, setVerify] = useState(0);
+  const [message, setMessage] = useState("");
   const router = useRouter();
   const { token } = router.query;
 
@@ -13,7 +15,7 @@ const Verify = (props: Props) => {
     try {
       const data = await Network.getData("info/get-token?accessToken=" + token);
       console.log(data);
-
+      setMessage(data.message);
       setVerify(data.status);
     } catch (error) {
       console.log(error);
@@ -24,22 +26,27 @@ const Verify = (props: Props) => {
       verifyToken();
     }
   }, [token]);
+  console.log(verify);
 
   return (
     <div className='w-96 rounded-lg bg-white h-52 flex justify-center items-center'>
-      {!verify ? (
-        <div className='flex flex-col justify-center items-center'>
-          <p className='text-2xl font-semibold'>Token Geçersiz.</p>
-          <a href='/' className='p-4 rounded-lg bg-black text-white mt-4'>
-            Ana Sayfa
-          </a>
-        </div>
+      {verify == 0 ? (
+        <Loader color='black' />
       ) : (
         <div className='flex flex-col justify-center items-center'>
-          <p className='text-2xl font-semibold'>Email Doğrulandı.</p>
-          <a href='/login' className='p-4 rounded-lg bg-black text-white mt-4'>
-            Giriş Yap
-          </a>
+          <p className='text-2xl font-semibold text-center'>{message}</p>
+          {verify == 1 || verify == 3 ? (
+            <a
+              href='/login'
+              className='p-4 rounded-lg bg-black text-white mt-4'
+            >
+              Giriş Sayfası
+            </a>
+          ) : (
+            <a href='/' className='p-4 rounded-lg bg-black text-white mt-4'>
+              Ana Sayfa
+            </a>
+          )}
         </div>
       )}
     </div>

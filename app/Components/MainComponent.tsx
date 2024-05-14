@@ -6,7 +6,6 @@ type Props = {};
 
 interface Info {
   isActive: boolean;
-  // Add other properties as needed
 }
 
 const MainComponent = (props: Props) => {
@@ -21,11 +20,11 @@ const MainComponent = (props: Props) => {
     }
   };
 
-  // useEffect(() => {
-  //   checkMe();
-  // }, []);
-  // return info && info?.isActive ? <Home /> : <Loader />;
-  return <Home />;
+  useEffect(() => {
+    checkMe();
+  }, []);
+  return info && info?.isActive ? <Home /> : <Loader />;
+  // return <Home />;
 };
 
 export default MainComponent;

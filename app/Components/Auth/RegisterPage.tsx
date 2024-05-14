@@ -2,6 +2,7 @@ import { registerService } from "@/app/Services/auth";
 import React, { useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
 import Network from "@/app/Helpers/Network";
+import toast from "react-hot-toast";
 const RegisterPage = () => {
   const [register, setRegister] = useState({
     firstName: "",
@@ -27,8 +28,13 @@ const RegisterPage = () => {
     try {
       const reg = await registerService(register);
       console.log(reg);
+      toast.success(
+        "Lütfen hesabınızı email adresinizdeki bağlantıdan onaylayın."
+      );
       if (reg) {
-        location.href = "/login";
+        setTimeout(() => {
+          location.href = "/login";
+        }, 1000);
       }
     } catch (error: any) {
       console.log(error);

@@ -192,10 +192,10 @@ console.log(selectWord);
       className='flex flex-col justify-center items-center w-full text-center'
       style={{ height: "calc(100% - 95px)" }}
     >
-      <div className='w-full flex justify-center items-center h-10 mb-4'>
+      <div className='w-full flex justify-center items-center h-2 mb-4'>
         <p className='text-white text-xl'> Puan: {totalPoint}</p>
       </div>
-      <div className='w-[330px] h-[390px] md:w-auto md:h-auto'>
+      <div className='w-[330px] min-h-[390px] md:w-auto md:h-auto'>
         <Row
           keyboardWord={keyboardWord}
           solves={rowOk.row1?.solves ? rowOk.row1.solves : []}
