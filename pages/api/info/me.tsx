@@ -1,6 +1,6 @@
 import connectDBV2 from "@/PageApi/db/connection";
 import { errorHandle } from "@/PageApi/db/errorHandler/error";
-import User from "@/PageApi/models/userInfoModel";
+import Users from "@/PageApi/models/userInfoModel";
 import { NextApiRequest, NextApiResponse } from "next";
 
 connectDBV2();
@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const token = req.cookies.token;
   const userId = errorHandle(token || "", res, req, "GET");
   try {
-    const user = await User.findOne({ _id: userId });
+    const user = await Users.findOne({ _id: userId });
     if (!user) {
       return res
         .status(404)

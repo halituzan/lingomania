@@ -1,6 +1,6 @@
 import connectDBV2 from "@/PageApi/db/connection";
 
-import User from "@/PageApi/models/userInfoModel";
+import Users from "@/PageApi/models/userInfoModel";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log(email);
   try {
     // Check if user exists
-    const user = await User.findOne({ email: email });
+    const user = await Users.findOne({ email: email });
     if (!user) {
       return res
         .status(400)

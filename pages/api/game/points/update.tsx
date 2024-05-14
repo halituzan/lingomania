@@ -1,7 +1,7 @@
 import connectDBV2 from "@/PageApi/db/connection";
 import { errorHandle } from "@/PageApi/db/errorHandler/error";
 
-import User from "@/PageApi/models/userInfoModel";
+import Users from "@/PageApi/models/userInfoModel";
 import { NextApiRequest, NextApiResponse } from "next";
 connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,8 +11,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = errorHandle(token || "", req, res, "POST");
 
   try {
-    const user = await User.findOne({ _id: userId });
-    await User.findOneAndUpdate(
+    const user = await Users.findOne({ _id: userId });
+    await Users.findOneAndUpdate(
       { _id: userId },
       {
         totalScore: user.totalScore + point,

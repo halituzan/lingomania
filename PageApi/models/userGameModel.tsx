@@ -135,6 +135,6 @@ const gameSchema = new Schema({
   },
 });
 
-const Game = mongoose.models?.Game || mongoose.model("Game", gameSchema);
+const Games = mongoose.models?.Games || mongoose.model("Games", gameSchema);
 
-export default Game;
+export default Games;

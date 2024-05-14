@@ -1,6 +1,6 @@
 import connectDBV2 from "@/PageApi/db/connection";
 import { errorHandle } from "@/PageApi/db/errorHandler/error";
-import Game from "@/PageApi/models/userGameModel";
+import Games from "@/PageApi/models/userGameModel";
 import { NextApiRequest, NextApiResponse } from "next";
 
 
@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   updateQuery[`lastGame.step${step + 1}.status`] = true;
 
   try {
-    await Game.findOneAndUpdate(
+    await Games.findOneAndUpdate(
       { userId: userId },
       {
         $set: updateQuery,

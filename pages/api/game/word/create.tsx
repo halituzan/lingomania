@@ -1,6 +1,6 @@
 import connectDBV2 from "@/PageApi/db/connection";
 import { errorHandle } from "@/PageApi/db/errorHandler/error";
-import Game from "@/PageApi/models/userGameModel";
+import Games from "@/PageApi/models/userGameModel";
 import { NextApiRequest, NextApiResponse } from "next";
 connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = errorHandle(token || "", req, res, "POST");
 
   try {
-    await Game.findOneAndUpdate(
+    await Games.findOneAndUpdate(
       { userId: userId },
       {
         currentWord: word,
