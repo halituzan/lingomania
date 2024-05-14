@@ -10,11 +10,14 @@ connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, password } = req.body;
   const { device } = req.query;
+  console.log(email);
   try {
     // Check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email });
     if (!user) {
-      return res.status(400).json({ message: "Email veya Şifreniz Yanlış", status: false });
+      return res
+        .status(400)
+        .json({ message: "Email veya Şifreniz Yanlış", status: false });
     }
 
     // Check if password is correct

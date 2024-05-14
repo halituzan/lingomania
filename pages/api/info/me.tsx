@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const token = req.cookies.token;
-  const userId = errorHandle(token || "", req, res, "GET");
+  const userId = errorHandle(token || "", res, req, "GET");
   try {
     const user = await User.findOne({ _id: userId });
     if (!user) {

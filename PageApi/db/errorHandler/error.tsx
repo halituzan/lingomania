@@ -11,6 +11,6 @@ export const errorHandle = (
 ) => {
   accessControl(token, res);
   const userId = userControl(token, res);
-  methodHandle(req, res, method);
+  methodHandle(res, req, method);
   return userId;
 };
