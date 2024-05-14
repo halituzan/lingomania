@@ -36,7 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     // Create new user
-    const newUser = new User({
+    const newUser = new Users({
       firstName,
       lastName,
       email,
@@ -48,7 +48,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await newUser
       .save()
       .then((user: { _id: string }) => {
-        const newGame = new Game({
+        const newGame = new Games({
           userId: user._id,
         });
         return newGame.save();
