@@ -1,6 +1,5 @@
-import { JwtPayload, verify } from "jsonwebtoken";
-import methodHandle from "./method";
 import accessControl from "./accessControl";
+import methodHandle from "./method";
 import userControl from "./user";
 
 export const errorHandle = (

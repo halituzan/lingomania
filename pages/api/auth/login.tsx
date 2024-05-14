@@ -42,7 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         process.env.NEXT_PUBLIC_JWT_SECRET
       );
 
-      if (!device) {
+      if (device === "web") {
         // Set cookie
         res.setHeader(
           "Set-Cookie",
