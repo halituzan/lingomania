@@ -6,8 +6,7 @@ export const loginService = async (body: {
   password: string;
 }) => {
   try {
-    const data = await Network.postData("/auth/login", body);
-
+    const data = await Network.postData("/auth/login?device=web", body);
     return data;
   } catch (error: any) {
     toast.error(error.response.data.message);

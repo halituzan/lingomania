@@ -10,7 +10,6 @@ connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, password } = req.body;
   const { device } = req.query;
-  console.log(email);
   try {
     // Check if user exists
     const user = await Users.findOne({ email: email });

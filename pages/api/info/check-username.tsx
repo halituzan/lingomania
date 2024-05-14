@@ -6,10 +6,6 @@ connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userName } = req.query;
 
-  if (!userName) {
-    return;
-  }
-
   try {
     const user = await Users.findOne({ userName: userName });
     console.log(user);
