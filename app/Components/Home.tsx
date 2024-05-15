@@ -27,7 +27,6 @@ const Home = (props: Props) => {
     (state: any) => state.letter
   );
   const tp = window.localStorage.getItem("totalPoint");
-console.log(selectWord);
 
   const getWords = async (word: string) => {
     try {
