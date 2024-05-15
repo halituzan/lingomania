@@ -1,0 +1,25 @@
+.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Divler arası boşluk */
+  }
+  
+  .step-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+  }
+  

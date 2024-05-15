@@ -21,15 +21,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (lang === "turkish") {
       let query: any = {};
 
-      query.$regex = `^[a-zA-ZğĞüÜşŞıİöÖçÇ]{${letter_count}}$`;
+      query.$regex = `^[a-zA-ZğĞüÜşŞıİöÖçÇâÂîÎûÛ]{${letter_count}}$`;
       const data = await Libraries.find({
         madde: query,
       });
       const wordData = data.map((doc: any) =>
-        doc.madde.toLocaleLowerCase("tr")
+        doc.madde
+          .toLocaleLowerCase("tr")
+          .replace("â", "a")
+          .replace("î", "i")
+          .replace("û", "u")
       );
 
-      return res.json({ words: wordData });
+      return res.json({ words: wordData.sort() });
     }
     if (lang === "english") {
       let query: any = {};
