@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.cookies;
   const { letter_count = 3, lang = "turkish" } = req.query;
   // Error Methods
-  const userId = errorHandle(token || "", req, res, "GET");
+  const userId = errorHandle(token || "", res, req, "GET");
   try {
     const user = await Users.findOne({ _id: userId });
     if (!user) {
