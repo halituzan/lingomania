@@ -116,7 +116,6 @@ const Home = (props: Props) => {
     },
   });
   const [rowMeans, setRowMeans] = useState([]);
-
   const newGame = async () => {
     setLoading(true);
     const letter = randomLetter();
@@ -269,13 +268,14 @@ const Home = (props: Props) => {
           </button>
         </div>
       )}
+
       {win === "fail" && (
         <div className='text-white mb-4 flex flex-col items-center'>
           <p className='text-white text-2xl my-2'>Bilemediniz.</p>
           <p className='text-white text-2xl my-2 flex items-center'>Kelime: </p>
           <div className='text-white  my-2 flex items-center '>
             <p className='text-2xl uppercase'>{selectWord}</p>
-            {result?.means?.length > 0 && (
+            {result && (
               <div className='ml-4 rounded-full bg-green-600 hover:bg-green-800 p-2 cursor-pointer relative'>
                 <Icon
                   icon='akar-icons:chat-question'

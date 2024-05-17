@@ -7,7 +7,7 @@ interface LetterStates {
   selectWord: string;
   filterWords: string[] | null[];
   win: string;
-  result: object;
+  result: null | object;
 }
 
 const initialState: LetterStates = {
@@ -15,7 +15,7 @@ const initialState: LetterStates = {
   filterWords: [],
   selectWord: "",
   win: "",
-  result: {},
+  result: null,
 };
 
 const letterSlice = createSlice({
