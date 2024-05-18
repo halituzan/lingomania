@@ -11,7 +11,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { device } = req.query;
   try {
     // Check if user exists
-    const user = await Users.findOne({ email: email });
+    const user = await Users.findOne({
+      $or: [{ email: email }, { userName: email }],
+    });
     if (!user) {
       return res
         .status(400)
