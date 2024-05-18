@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-const str = mongoose.Schema.Types.String;
 const englishSchema = new Schema({
   word: String,
   def: String,
+  pos: String,
 });
 
-const English =
-  mongoose.models?.English || mongoose.model("English", englishSchema);
+const Englishes =
+  mongoose.models?.Englishes || mongoose.model("Englishes", englishSchema);
 
-export default English;
+export default Englishes;
