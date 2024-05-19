@@ -4,7 +4,17 @@ const gameSchema = new Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   gameLevel: {
     type: Number,
-    default: 3, // 3,4,5,6 harfli oyunlar olabilir
+    default: 1,
+  },
+  chapter: {
+    type: {
+      section: Number,
+      level: Number,
+    },
+    default: {
+      section: 1,
+      level: 1,
+    },
   },
   correctWordPool: {
     type: [
@@ -12,7 +22,7 @@ const gameSchema = new Schema({
         word: String,
         date: Date,
         step: Number,
-        
+
         wordPoint: Number,
         letterPoint: Number,
         time: Number,

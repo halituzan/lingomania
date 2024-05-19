@@ -5,8 +5,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const token = req.cookies.token;
-  const userId = errorHandle(token || "", res, req, "GET");
+  const token = req.cookies.token || req.headers.token || "";
+  console.log(req.headers.token);
+
+  const userId = errorHandle(token, res, req, "GET");
   try {
     const user = await Users.findOne({ _id: userId });
     if (!user) {
