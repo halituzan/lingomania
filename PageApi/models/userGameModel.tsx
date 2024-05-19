@@ -6,6 +6,15 @@ const gameSchema = new Schema({
     type: Number,
     default: 1,
   },
+  winGames: {
+    type: [
+      {
+        gameRow: [],
+        status: Boolean,
+      },
+    ],
+    default: [{ gameRow: [], status: true }],
+  },
   chapter: {
     type: {
       section: Number,
@@ -41,10 +50,6 @@ const gameSchema = new Schema({
       },
     ],
     default: [],
-  },
-  currentWord: {
-    type: String,
-    default: "",
   },
   rowMeans: {
     type: Array,
