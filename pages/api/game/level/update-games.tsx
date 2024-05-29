@@ -9,7 +9,9 @@ connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const token = req.cookies.token || req.headers.token;
   const { data, status, level } = req.body;
-
+  console.log("data", data);
+  console.log("status", status);
+  console.log("level", level);
   // Error Methods
   const userId = errorHandle(token || "", res, req, "POST");
   try {
@@ -22,20 +24,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const queryStatus: any = {};
 
     queryArray[`winGames.${level - 1}.gameRow`] = data;
+    queryArray[`winGames.${level - 1}.status`] = status;
     await Games.findOneAndUpdate(
       { userId: user._id },
       { $push: queryArray },
       { new: true }
     );
 
-    if (status !== null && status !== undefined) {
-      queryStatus[`winGames.${level - 1}.status`] = status;
-      await Games.findOneAndUpdate(
-        { userId: user._id },
-        { $set: queryStatus },
-        { new: true }
-      );
-    }
+    // if (status !== null && status !== undefined) {
+    //   queryStatus[`winGames.${level - 1}.status`] = status;
+    //   await Games.findOneAndUpdate(
+    //     { userId: user._id },
+    //     { $set: queryStatus },
+    //     { new: true }
+    //   );
+    // }
     //* Push İşlemi
     // await Users.findByIdAndUpdate(
     //     { _id: userId },
