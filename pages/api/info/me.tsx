@@ -1,12 +1,12 @@
 import connectDBV2 from "@/PageApi/db/connection";
 import { errorHandle } from "@/PageApi/db/errorHandler/error";
+import Games from "@/PageApi/models/userGameModel";
 import Users from "@/PageApi/models/userInfoModel";
 import { NextApiRequest, NextApiResponse } from "next";
 
 connectDBV2();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const token = req.cookies.token || req.headers.token || "";
-  console.log(req.headers.token);
 
   const userId = errorHandle(token, res, req, "GET");
   try {
@@ -19,6 +19,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!user.isActive) {
       return res.status(406).json({ message: "Lütfen Hesabınızı Onaylayın." });
     }
+
+    const { chapter } = await Games.findOne({ userId: user._id });
+
     const {
       firstName,
       lastName,
@@ -31,7 +34,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       totalScore,
       level,
       isActive,
-      chapter,
     } = user;
     return res.status(200).json({
       data: {
