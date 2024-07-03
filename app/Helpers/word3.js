@@ -31,7 +31,7 @@ const word3 = [
     "alt",
     "alâ",
     "ama",
-    "amâ",
+    "ama",
     "ana",
     "ani",
     "ant",

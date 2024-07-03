@@ -19,7 +19,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!user.isActive) {
       return res.status(406).json({ message: "Lütfen Hesabınızı Onaylayın." });
     }
-
     const {
       firstName,
       lastName,
@@ -32,6 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       totalScore,
       level,
       isActive,
+      chapter,
     } = user;
     return res.status(200).json({
       data: {
@@ -46,6 +46,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         totalScore,
         level,
         isActive,
+        chapter,
       },
       status: true,
     });

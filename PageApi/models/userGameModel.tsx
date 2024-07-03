@@ -17,12 +17,16 @@ const gameSchema = new Schema({
   },
   chapter: {
     type: {
-      section: Number,
-      level: Number,
+      word3: Number,
+      word4: Number,
+      word5: Number,
+      word6: Number,
     },
     default: {
-      section: 1,
-      level: 1,
+      word3: 1,
+      word4: 1,
+      word5: 1,
+      word6: 1,
     },
   },
   correctWordPool: {

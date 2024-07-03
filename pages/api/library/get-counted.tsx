@@ -9,7 +9,12 @@ connectDBV2();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.cookies;
-  const { letter_count = 5, lang = "turkish", letter = "" } = req.query;
+  const {
+    letter_count = 5,
+    lang = "turkish",
+    letter = "",
+    mixed = "",
+  } = req.query;
   // Error Methods
   const userId = errorHandle(token || "", res, req, "GET");
   try {
@@ -66,12 +71,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const wordData = data.map((doc: any) =>
           doc.madde
             .toLocaleLowerCase("tr")
-            .replace("â", "a")
-            .replace("î", "i")
-            .replace("û", "u")
+            .replaceAll("â", "a")
+            .replaceAll("î", "i")
+            .replaceAll("û", "u")
         );
 
-        return res.json({ words: wordData.sort() });
+        if (mixed) {
+          const uniqueWords = Array.from(new Set(wordData));
+          const shuffledWords = uniqueWords.sort(() => Math.random() - 0.5);
+          console.log(shuffledWords.length);
+          return res.json({ words: shuffledWords });
+        } else {
+          return res.json({ words: wordData });
+        }
       }
       if (lang === "english") {
         let query: any = {};
@@ -81,8 +93,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const wordEn = await Englishes.find({
           word: query,
         });
-        console.log(wordEn);
-
         // const word3 = data.map((doc: any) => doc.word.toLowerCase());
 
         return res.json({ words: wordEn });
