@@ -60,6 +60,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           message: "Giriş Başarılı",
           status: true,
           token: token,
+          data: user,
         });
       }
       res.json({

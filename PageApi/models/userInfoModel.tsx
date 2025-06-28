@@ -49,6 +49,12 @@ const userSchema = new Schema({
     type: Number,
     default: 1,
   },
+  levelInfo: {
+    word3: { type: Number, default: 1 },
+    word4: { type: Number, default: 1 },
+    word5: { type: Number, default: 1 },
+    word6: { type: Number, default: 1 },
+  },
 });
 
 const Users = mongoose.models?.Users || mongoose.model("Users", userSchema);

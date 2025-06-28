@@ -18,7 +18,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.json({ message: "Böyle Bir Kullanıcı Bulunamıyor" });
     }
     const { winGames } = await Games.findOne({ userId: userId });
-    console.log("winGames", winGames);
 
     return res.json({
       data: winGames[level - 1]
