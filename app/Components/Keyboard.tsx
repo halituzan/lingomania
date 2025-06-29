@@ -14,6 +14,8 @@ type Props = {
   rowOk: any;
   setRowOK: any;
   setRowMeans: any;
+  currentAttempts?: number;
+  setCurrentAttempts?: any;
 };
 
 const Keyboard = ({
@@ -22,6 +24,8 @@ const Keyboard = ({
   rowOk,
   setRowOK,
   setRowMeans,
+  currentAttempts,
+  setCurrentAttempts,
 }: Props) => {
   const dispatch = useDispatch();
   const { selectWord, win, filterWords, firstLetter } = useSelector(
@@ -83,6 +87,11 @@ const Keyboard = ({
       }
     }
     if (targetKey) {
+      // Attempts sayısını artır (sadece online mode'da)
+      if (setCurrentAttempts) {
+        setCurrentAttempts((prev: number) => prev + 1);
+      }
+      
       setRowOK({
         ...rowOk,
         [targetKey]: {
@@ -228,7 +237,7 @@ const Keyboard = ({
   };
   const bigButton = `bg-slate-600 mr-[6px] p-0 m-0 touch-manipulation rounded-md flex justify-center items-center disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white w-14 h-full`;
   return (
-    <div className='px-2 w-full h-[200px] mt-2 flex flex-col'>
+    <div className='px-2 w-full max-w-[500px] h-[200px] mt-2 flex flex-col'>
       <div className='flex my-auto mb-2 flex-1'>
         {letterLine1.map((item, index) => {
           return (

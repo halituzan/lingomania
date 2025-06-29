@@ -187,9 +187,16 @@ const Home = (props: Props) => {
 
   return (
     <div
-      className='flex flex-col justify-center items-center w-full text-center'
+      className='flex py-10 flex-col justify-center items-center w-full text-center'
       style={{ height: "calc(100% - 95px)" }}
     >
+      <div className='absolute left-2 top-2 menu'>
+        <div className='menu-item flex items-center gap-2 cursor-pointer hover:text-green-500 text-white' role="button" onClick={() => {
+          window.location.href = "/online";
+        }}>
+          <Icon icon='heroicons-outline:status-online' fontSize={32} /> <p>Online</p>
+        </div>
+      </div>
       <div className='w-full flex justify-center items-center h-2 mb-4'>
         <p className='text-white text-xl'> Puan: {totalPoint}</p>
       </div>
