@@ -91,7 +91,7 @@ const Keyboard = ({
       if (setCurrentAttempts) {
         setCurrentAttempts((prev: number) => prev + 1);
       }
-      
+
       setRowOK({
         ...rowOk,
         [targetKey]: {
@@ -103,23 +103,22 @@ const Keyboard = ({
         },
         ...(nextKey
           ? {
-              [nextKey]: {
-                ...rowOk[nextKey],
-                status: true,
-                word: "",
-                solves: [],
-              },
-            }
+            [nextKey]: {
+              ...rowOk[nextKey],
+              status: true,
+              word: "",
+              solves: [],
+            },
+          }
           : {}),
       });
     }
 
     setKeyboardWord(keyboardWord[0]);
-
     if (keyboardWord === selectWord) {
       dispatch(winHandler(selectWord));
       let point = parseInt(window.localStorage.getItem("totalPoint") || "0");
-      
+
       switch (targetKey) {
         case "row1":
           point = point + 600;
@@ -225,15 +224,14 @@ const Keyboard = ({
       }
     }
 
-    return `${
-      correctResult.some((i: any) => i == item)
+    return `${correctResult.some((i: any) => i == item)
         ? "bg-green-600"
         : includeResult.some((i: any) => i == item)
-        ? "bg-yellow-600"
-        : noneResult.some((i: any) => i == item)
-        ? "bg-slate-900"
-        : "bg-slate-600"
-    } rounded-md mr-[6px] p-0 m-0 disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white flex-1 touch-manipulation`;
+          ? "bg-yellow-600"
+          : noneResult.some((i: any) => i == item)
+            ? "bg-slate-900"
+            : "bg-slate-600"
+      } rounded-md mr-[6px] p-0 m-0 disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white flex-1 touch-manipulation`;
   };
   const bigButton = `bg-slate-600 mr-[6px] p-0 m-0 touch-manipulation rounded-md flex justify-center items-center disabled:bg-slate-800 hover:bg-slate-400 uppercase text-white w-14 h-full`;
   return (

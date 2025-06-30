@@ -8,7 +8,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "host":"next dev --hostname 0.0.0.0"
+    "host":"next dev --hostname 0.0.0.0",
+    "socket:install": "cd socket-server && npm install",
+    "socket:dev": "cd socket-server && npm run dev", 
+    "socket:start": "cd socket-server && npm start",
+    "socket:build": "cd socket-server && npm install"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
