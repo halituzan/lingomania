@@ -57,11 +57,11 @@ const formatTime = (seconds: number) => {
 };
 const Online = (props: Props) => {
   const router = useRouter();
-  const popoverRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef < HTMLDivElement > (null);
   const [showPopover, setShowPopover] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [gameState, setGameState] = useState<GameState>({
+  const [socket, setSocket] = useState < Socket | null > (null);
+  const [gameState, setGameState] = useState < GameState > ({
     currentWord: "",
     letter: "",
     players: [],
@@ -72,15 +72,15 @@ const Online = (props: Props) => {
     phase: "waiting",
     roomOwner: "",
   });
-  const [username, setUsername] = useState<string>("");
-  const [currentUserId, setCurrentUserId] = useState<string>("");
-  const [currentRoomId, setCurrentRoomId] = useState<string>("");
+  const [username, setUsername] = useState < string > ("");
+  const [currentUserId, setCurrentUserId] = useState < string > ("");
+  const [currentRoomId, setCurrentRoomId] = useState < string > ("");
 
   // Oda sistemi state'leri
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const [rooms, setRooms] = useState < Room[] > ([]);
   const [showCreateRoom, setShowCreateRoom] = useState(false);
   const [showJoinRoom, setShowJoinRoom] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const [selectedRoom, setSelectedRoom] = useState < Room | null > (null);
   const [roomForm, setRoomForm] = useState({
     name: "",
     password: "",
@@ -88,8 +88,8 @@ const Online = (props: Props) => {
     wordCount: 20,
   });
   const [joinPassword, setJoinPassword] = useState("");
-  const [view, setView] = useState<"lobby" | "game">("lobby"); // lobby veya game
-  const [roomShareUrl, setRoomShareUrl] = useState<string>("");
+  const [view, setView] = useState < "lobby" | "game" > ("lobby"); // lobby veya game
+  const [roomShareUrl, setRoomShareUrl] = useState < string > ("");
 
   const dispatch = useDispatch();
   const { firstLetter, selectWord, result, win } = useSelector(
@@ -385,9 +385,9 @@ const Online = (props: Props) => {
     ) {
       const confirmed = confirm(
         "Odayı kapatmak istediğinizden emin misiniz?\n\n" +
-          "⚠️ Bu işlem geri alınamaz\n" +
-          "⚠️ Tüm oyuncular odadan çıkarılacak\n" +
-          "⚠️ Oyun verisi kaybolacak"
+        "⚠️ Bu işlem geri alınamaz\n" +
+        "⚠️ Tüm oyuncular odadan çıkarılacak\n" +
+        "⚠️ Oyun verisi kaybolacak"
       );
       if (confirmed) {
         socket.emit("closeRoom", {
@@ -556,10 +556,10 @@ const Online = (props: Props) => {
                     {room.phase === "waiting"
                       ? "🟡 Bekliyor"
                       : room.phase === "playing"
-                      ? "🟢 Oynanıyor"
-                      : room.phase === "results"
-                      ? "🔵 Sonuçlar"
-                      : "🔴 Bitti"}
+                        ? "🟢 Oynanıyor"
+                        : room.phase === "results"
+                          ? "🔵 Sonuçlar"
+                          : "🔴 Bitti"}
                   </p>
                 </div>
                 <button
@@ -786,16 +786,12 @@ const Online = (props: Props) => {
         )}
         {gameState.phase === "playing" && (
           <>
-            <div className='w-full flex justify-center items-center h-2 mb-4'>
-              <p className='text-white text-xl'>
-                Kelime: {keyboardWord?.toUpperCase()} ile başlıyor
-              </p>
-              <p className='text-yellow-400 text-sm ml-4'>
-                ({currentAttempts}/6 deneme)
-              </p>
-            </div>
-
             <div className='w-[330px] min-h-[390px] md:w-auto md:h-auto'>
+              <div className='w-full flex justify-end items-center h-2 mb-4'>
+                <p className='text-yellow-400 text-sm ml-4'>
+                  ({currentAttempts}/6 deneme)
+                </p>
+              </div>
               <Row
                 keyboardWord={keyboardWord}
                 solves={rowOk.row1?.solves ? rowOk.row1.solves : []}
@@ -953,9 +949,8 @@ const Online = (props: Props) => {
                   >
                     <span>{player.username}</span>
                     <span
-                      className={`px-2 py-1 rounded text-sm ${
-                        player.ready ? "bg-green-500" : "bg-red-500"
-                      }`}
+                      className={`px-2 py-1 rounded text-sm ${player.ready ? "bg-green-500" : "bg-red-500"
+                        }`}
                     >
                       {player.ready ? "✓ Hazır" : "✗ Bekliyor"}
                     </span>
@@ -1009,18 +1004,16 @@ const Online = (props: Props) => {
               onClick={toggleReady}
               disabled={
                 gameState.players.filter((p) => p.ready).length ===
-                  gameState.players.length && gameState.players.length > 0
+                gameState.players.length && gameState.players.length > 0
               }
-              className={`px-8 py-3 rounded-md font-bold text-lg transition-colors ${
-                gameState.players.find((p) => p.id === currentUserId)?.ready
+              className={`px-8 py-3 rounded-md font-bold text-lg transition-colors ${gameState.players.find((p) => p.id === currentUserId)?.ready
                   ? "bg-red-500 hover:bg-red-600 text-white"
                   : "bg-green-500 hover:bg-green-600 text-white"
-              } ${
-                gameState.players.filter((p) => p.ready).length ===
+                } ${gameState.players.filter((p) => p.ready).length ===
                   gameState.players.length && gameState.players.length > 0
                   ? "opacity-50 cursor-not-allowed"
                   : ""
-              }`}
+                }`}
             >
               {gameState.players.find((p) => p.id === currentUserId)?.ready
                 ? "❌ Hazır Değilim"
@@ -1055,24 +1048,23 @@ const Online = (props: Props) => {
                   .map((player, index) => (
                     <div
                       key={player.id}
-                      className={`p-3 rounded flex justify-between ${
-                        index === 0
+                      className={`p-3 rounded flex justify-between ${index === 0
                           ? "bg-yellow-600"
                           : index === 1
-                          ? "bg-gray-500"
-                          : index === 2
-                          ? "bg-orange-600"
-                          : "bg-gray-700"
-                      }`}
+                            ? "bg-gray-500"
+                            : index === 2
+                              ? "bg-orange-600"
+                              : "bg-gray-700"
+                        }`}
                     >
                       <span>
                         {index === 0
                           ? "🥇"
                           : index === 1
-                          ? "🥈"
-                          : index === 2
-                          ? "🥉"
-                          : `${index + 1}.`}{" "}
+                            ? "🥈"
+                            : index === 2
+                              ? "🥉"
+                              : `${index + 1}.`}{" "}
                         {player.username}
                       </span>
                       <span className='font-bold'>{player.score} puan</span>
@@ -1163,17 +1155,16 @@ const SideMenu = ({
             {gameState.phase === "playing"
               ? "Oynanıyor"
               : gameState.phase === "waiting"
-              ? "Bekliyor"
-              : gameState.phase === "results"
-              ? "Sonuçlar"
-              : "Bitti"}
+                ? "Bekliyor"
+                : gameState.phase === "results"
+                  ? "Sonuçlar"
+                  : "Bitti"}
           </p>
           <div
-            className={`relative transition-all duration-300 ${
-              gameState.timeLeft <= 10 && gameState.phase === "playing"
+            className={`relative transition-all duration-300 ${gameState.timeLeft <= 10 && gameState.phase === "playing"
                 ? "transform scale-105 animate-pulse"
                 : ""
-            }`}
+              }`}
           >
             {/* Circular Progress Bar Border */}
             <div className='relative p-4'>
@@ -1205,12 +1196,11 @@ const SideMenu = ({
                   strokeWidth='3'
                   strokeLinecap='round'
                   strokeDasharray={`${2 * Math.PI * 45}`}
-                  strokeDashoffset={`${
-                    2 *
+                  strokeDashoffset={`${2 *
                     Math.PI *
                     45 *
                     (1 - gameState.timeLeft / gameState.totalTime)
-                  }`}
+                    }`}
                   style={{
                     transition: "stroke-dashoffset 1s linear, stroke 0.3s ease",
                     filter:
@@ -1224,11 +1214,10 @@ const SideMenu = ({
               {/* Timer content */}
               <div className='relative z-10'>
                 <p
-                  className={`font-bold text-center ${
-                    gameState.timeLeft <= 10 && gameState.phase === "playing"
+                  className={`font-bold text-center ${gameState.timeLeft <= 10 && gameState.phase === "playing"
                       ? "text-2xl text-red-400 animate-bounce"
                       : "text-lg text-white"
-                  }`}
+                    }`}
                 >
                   <span
                     className={
@@ -1254,9 +1243,8 @@ const SideMenu = ({
           .map((player, index) => (
             <div
               key={player.id}
-              className={`p-3 rounded ${
-                player.username === username ? "bg-blue-600" : "bg-gray-700"
-              }`}
+              className={`p-3 rounded ${player.username === username ? "bg-blue-600" : "bg-gray-700"
+                }`}
             >
               <div className='text-white'>
                 <div className='flex justify-between items-center'>
@@ -1267,9 +1255,8 @@ const SideMenu = ({
                   <div className='flex items-center space-x-2'>
                     {gameState.phase === "waiting" && (
                       <span
-                        className={`text-sm px-2 py-1 rounded ${
-                          player.ready ? "bg-green-500" : "bg-red-500"
-                        }`}
+                        className={`text-sm px-2 py-1 rounded ${player.ready ? "bg-green-500" : "bg-red-500"
+                          }`}
                       >
                         {player.ready ? "✓ Hazır" : "✗ Bekliyor"}
                       </span>
@@ -1297,6 +1284,71 @@ const SideMenu = ({
             </div>
           ))}
       </div>
+
+      {gameState.phase === "waiting" && (
+          <div className='flex flex-col mt-4 p-4 bg-yellow-600 rounded text-white text-center max-w-md mx-auto'>
+            <p className='mb-3 text-lg font-semibold'>
+              🎮 Oyun Başlamak İçin Hazır Olun!
+            </p>
+
+            {/* Ready durumu göstergesi */}
+            <div className='mb-4'>
+              <p className='text-sm mb-2'>
+                Hazır oyuncular:{" "}
+                <span className='font-bold'>
+                  {gameState.players.filter((p) => p.ready).length} /{" "}
+                  {gameState.players.length}
+                </span>
+              </p>
+              <div className='bg-yellow-700 rounded p-2'>
+                <p className='text-xs'>
+                  {gameState.players.filter((p) => p.ready).length ===
+                    gameState.players.length && gameState.players.length > 0
+                    ? "✅ Tüm oyuncular hazır! Oyun başlıyor..."
+                    : "⏳ Tüm oyuncuların hazır olmasını bekleyin"}
+                </p>
+              </div>
+            </div>
+
+            {/* Start düğmesi */}
+            <button
+              onClick={toggleReady}
+              disabled={
+                gameState.players.filter((p) => p.ready).length ===
+                  gameState.players.length && gameState.players.length > 0
+              }
+              className={`px-8 py-3 rounded-md font-bold text-lg transition-colors ${
+                gameState.players.find((p) => p.id === currentUserId)?.ready
+                  ? "bg-red-500 hover:bg-red-600 text-white"
+                  : "bg-green-500 hover:bg-green-600 text-white"
+              } ${
+                gameState.players.filter((p) => p.ready).length ===
+                  gameState.players.length && gameState.players.length > 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+            >
+              {gameState.players.find((p) => p.id === currentUserId)?.ready
+                ? "❌ Hazır Değilim"
+                : "✅ Hazırım!"}
+            </button>
+
+            {gameState.players.filter((p) => p.ready).length ===
+              gameState.players.length &&
+              gameState.players.length > 0 && (
+                <div className='mt-4'>
+                  <Icon
+                    icon='line-md:loading-loop'
+                    className='mx-auto'
+                    fontSize={32}
+                  />
+                  <p className='text-sm mt-2 font-semibold'>
+                    🚀 Oyun başlıyor...
+                  </p>
+                </div>
+              )}
+          </div>
+        )}
 
       {gameState.phase === "finished" && (
         <div className='mt-4 p-3 bg-purple-600 rounded text-white text-center'>
