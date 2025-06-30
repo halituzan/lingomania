@@ -59,7 +59,7 @@ const Online = (props: Props) => {
   const router = useRouter();
   const popoverRef = useRef<HTMLDivElement>(null);
   const [showPopover, setShowPopover] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(true);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [gameState, setGameState] = useState<GameState>({
     currentWord: "",
@@ -161,10 +161,11 @@ const Online = (props: Props) => {
     if (!username) return; // Kullanıcı adı yoksa bağlantı kurma
 
     // Socket.IO sunucusuna bağlan (Heroku'daki ayrı sunucu)
-    const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL ||
-      (process.env.NODE_ENV === 'production'
-        ? 'https://lingomania.onrender.com' // Varsayılan Render.com URL
-        : 'http://localhost:3001');
+    const SOCKET_SERVER_URL =
+      process.env.NEXT_PUBLIC_SOCKET_URL ||
+      (process.env.NODE_ENV === "production"
+        ? "https://lingomania.onrender.com" // Varsayılan Render.com URL
+        : "http://localhost:3001");
 
     const newSocket = io(SOCKET_SERVER_URL, {
       transports: ["websocket", "polling"],
@@ -412,7 +413,7 @@ const Online = (props: Props) => {
         ready: newReadyState,
       });
     }
-    setShowMenu(true);
+    setShowMenu(false);
   };
 
   const copyRoomUrl = () => {
@@ -517,10 +518,11 @@ const Online = (props: Props) => {
     return (
       <div className='w-full h-screen bg-gray-900 p-4'>
         <div className='max-w-6xl mx-auto'>
-          <div className='flex justify-between items-center mb-6'>
-            <h1 className='text-white text-3xl'>Online Lingomania Odaları</h1>
+          <div className='flex justify-between items-center mb-2'>
+            <h1 className='text-white text-xl lg:text-3xl'>
+              Online Lingomania Odaları
+            </h1>
             <div className='flex items-center space-x-4'>
-              <span className='text-white'>Hoş geldin, {username}!</span>
               <button
                 onClick={() => setShowCreateRoom(true)}
                 className='bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md'
@@ -530,7 +532,7 @@ const Online = (props: Props) => {
               </button>
             </div>
           </div>
-
+          <span className='text-white mb-4'>Hoş geldin, {username}!</span>
           {/* Oda listesi */}
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
             {rooms.map((room) => (
@@ -759,7 +761,7 @@ const Online = (props: Props) => {
           className='text-white hover:text-green-500 z-40'
         />
       </div>
-      {!showMenu && (
+      {showMenu && (
         <div className='absolute top-0 left-0 w-full bg-black bg-opacity-50 z-30'>
           <SideMenu
             gameState={gameState}
@@ -977,6 +979,70 @@ const Online = (props: Props) => {
             )}
           </div>
         )}
+        {gameState.phase === "waiting" && (
+          <div className='flex flex-col mt-4 p-4 bg-yellow-600 rounded text-white text-center max-w-md mx-auto'>
+            <p className='mb-3 text-lg font-semibold'>
+              🎮 Oyun Başlamak İçin Hazır Olun!
+            </p>
+
+            {/* Ready durumu göstergesi */}
+            <div className='mb-4'>
+              <p className='text-sm mb-2'>
+                Hazır oyuncular:{" "}
+                <span className='font-bold'>
+                  {gameState.players.filter((p) => p.ready).length} /{" "}
+                  {gameState.players.length}
+                </span>
+              </p>
+              <div className='bg-yellow-700 rounded p-2'>
+                <p className='text-xs'>
+                  {gameState.players.filter((p) => p.ready).length ===
+                    gameState.players.length && gameState.players.length > 0
+                    ? "✅ Tüm oyuncular hazır! Oyun başlıyor..."
+                    : "⏳ Tüm oyuncuların hazır olmasını bekleyin"}
+                </p>
+              </div>
+            </div>
+
+            {/* Start düğmesi */}
+            <button
+              onClick={toggleReady}
+              disabled={
+                gameState.players.filter((p) => p.ready).length ===
+                  gameState.players.length && gameState.players.length > 0
+              }
+              className={`px-8 py-3 rounded-md font-bold text-lg transition-colors ${
+                gameState.players.find((p) => p.id === currentUserId)?.ready
+                  ? "bg-red-500 hover:bg-red-600 text-white"
+                  : "bg-green-500 hover:bg-green-600 text-white"
+              } ${
+                gameState.players.filter((p) => p.ready).length ===
+                  gameState.players.length && gameState.players.length > 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+            >
+              {gameState.players.find((p) => p.id === currentUserId)?.ready
+                ? "❌ Hazır Değilim"
+                : "✅ Hazırım!"}
+            </button>
+
+            {gameState.players.filter((p) => p.ready).length ===
+              gameState.players.length &&
+              gameState.players.length > 0 && (
+                <div className='mt-4'>
+                  <Icon
+                    icon='line-md:loading-loop'
+                    className='mx-auto'
+                    fontSize={32}
+                  />
+                  <p className='text-sm mt-2 font-semibold'>
+                    🚀 Oyun başlıyor...
+                  </p>
+                </div>
+              )}
+          </div>
+        )}
 
         {gameState.phase === "finished" && (
           <div className='text-white text-center'>
@@ -1048,7 +1114,9 @@ const SideMenu = ({
   width?: string;
 }) => {
   return (
-    <div className={`w-${width} h-screen bg-gray-800 p-4 border-r border-gray-700`}>
+    <div
+      className={`w-${width} h-screen bg-gray-800 p-4 border-r border-gray-700`}
+    >
       <div className='flex justify-between items-center mb-4'>
         <div className='flex space-x-2'>
           {roomShareUrl && (
@@ -1229,71 +1297,6 @@ const SideMenu = ({
             </div>
           ))}
       </div>
-
-      {gameState.phase === "waiting" && (
-        <div className='mt-4 p-4 bg-yellow-600 rounded text-white text-center'>
-          <p className='mb-3 text-lg font-semibold'>
-            🎮 Oyun Başlamak İçin Hazır Olun!
-          </p>
-
-          {/* Ready durumu göstergesi */}
-          <div className='mb-4'>
-            <p className='text-sm mb-2'>
-              Hazır oyuncular:{" "}
-              <span className='font-bold'>
-                {gameState.players.filter((p) => p.ready).length} /{" "}
-                {gameState.players.length}
-              </span>
-            </p>
-            <div className='bg-yellow-700 rounded p-2'>
-              <p className='text-xs'>
-                {gameState.players.filter((p) => p.ready).length ===
-                  gameState.players.length && gameState.players.length > 0
-                  ? "✅ Tüm oyuncular hazır! Oyun başlıyor..."
-                  : "⏳ Tüm oyuncuların hazır olmasını bekleyin"}
-              </p>
-            </div>
-          </div>
-
-          {/* Start düğmesi */}
-          <button
-            onClick={toggleReady}
-            disabled={
-              gameState.players.filter((p) => p.ready).length ===
-                gameState.players.length && gameState.players.length > 0
-            }
-            className={`px-8 py-3 rounded-md font-bold text-lg transition-colors ${
-              gameState.players.find((p) => p.id === currentUserId)?.ready
-                ? "bg-red-500 hover:bg-red-600 text-white"
-                : "bg-green-500 hover:bg-green-600 text-white"
-            } ${
-              gameState.players.filter((p) => p.ready).length ===
-                gameState.players.length && gameState.players.length > 0
-                ? "opacity-50 cursor-not-allowed"
-                : ""
-            }`}
-          >
-            {gameState.players.find((p) => p.id === currentUserId)?.ready
-              ? "❌ Hazır Değilim"
-              : "✅ Hazırım!"}
-          </button>
-
-          {gameState.players.filter((p) => p.ready).length ===
-            gameState.players.length &&
-            gameState.players.length > 0 && (
-              <div className='mt-4'>
-                <Icon
-                  icon='line-md:loading-loop'
-                  className='mx-auto'
-                  fontSize={32}
-                />
-                <p className='text-sm mt-2 font-semibold'>
-                  🚀 Oyun başlıyor...
-                </p>
-              </div>
-            )}
-        </div>
-      )}
 
       {gameState.phase === "finished" && (
         <div className='mt-4 p-3 bg-purple-600 rounded text-white text-center'>
