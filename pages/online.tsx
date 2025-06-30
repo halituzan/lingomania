@@ -534,7 +534,7 @@ const Online = (props: Props) => {
           </div>
           <span className='text-white mb-4'>Hoş geldin, {username}!</span>
           {/* Oda listesi */}
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto max-h-[calc(100vh-110px)]'>
             {rooms.map((room) => (
               <div key={room.id} className='bg-gray-800 p-4 rounded-lg'>
                 <div className='flex justify-between items-start mb-2'>
