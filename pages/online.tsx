@@ -161,11 +161,10 @@ const Online = (props: Props) => {
     if (!username) return; // Kullanıcı adı yoksa bağlantı kurma
 
     // Socket.IO sunucusuna bağlan (Heroku'daki ayrı sunucu)
-    const SOCKET_SERVER_URL = "http://localhost:3001";
-    // const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL ||
-    //   (process.env.NODE_ENV === 'production'
-    //     ? 'https://lingomania.onrender.com' // Varsayılan Render.com URL
-    //     : 'http://localhost:3001');
+    const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL ||
+      (process.env.NODE_ENV === 'production'
+        ? 'https://lingomania.onrender.com' // Varsayılan Render.com URL
+        : 'http://localhost:3001');
 
     const newSocket = io(SOCKET_SERVER_URL, {
       transports: ["websocket", "polling"],
