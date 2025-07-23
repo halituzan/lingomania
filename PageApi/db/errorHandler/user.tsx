@@ -1,8 +1,8 @@
 import { JwtPayload, verify } from "jsonwebtoken";
 
 const userControl = (token: string, res: any) => {
-  if (!process.env.NEXT_PUBLIC_JWT_SECRET) {
-    return;
+  if (!process.env.NEXT_PUBLIC_JWT_SECRET || !token) {
+    return "";
   }
   const { userId } = verify(
     token,

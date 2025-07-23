@@ -1,3 +1,4 @@
+import { config } from "@/config";
 import {
   setFilterWords,
   setFirstLetter,
@@ -15,7 +16,6 @@ import { v4 as uuidv4 } from "uuid";
 import Keyboard from "../app/Components/Keyboard";
 import Row from "../app/Components/Row";
 import { wordsFilter } from "../app/Helpers/wordsFilter";
-import toast from "react-hot-toast";
 
 type Props = {};
 
@@ -161,11 +161,7 @@ const Online = (props: Props) => {
     if (!username) return; // Kullanıcı adı yoksa bağlantı kurma
 
     // Socket.IO sunucusuna bağlan (Heroku'daki ayrı sunucu)
-    const SOCKET_SERVER_URL =
-      process.env.NEXT_PUBLIC_SOCKET_URL ||
-      (process.env.NODE_ENV === "production"
-        ? "https://lingomania.onrender.com" // Varsayılan Render.com URL
-        : "http://localhost:3001");
+    const SOCKET_SERVER_URL = config.socketUrl;
 
     const newSocket = io(SOCKET_SERVER_URL, {
       transports: ["websocket", "polling"],
@@ -296,6 +292,25 @@ const Online = (props: Props) => {
     };
   }, [username]); // Sadece username değiştiğinde yeniden çalış
 
+  const checkServer = async () => {
+    try {
+      const response = await fetch(config.socketUrl, {
+        method: "GET",
+      });
+  
+      if (response.ok) {
+        console.log("Server is up and running!");
+        return true;
+      } else {
+        console.warn("Server responded, but not OK:", response.status);
+        return false;
+      }
+    } catch (error) {
+      console.error("Server is down or unreachable:", error);
+      return false;
+    }
+  };
+
   const resetGameState = () => {
     setCurrentAttempts(0);
     setRowOK({
@@ -333,7 +348,12 @@ const Online = (props: Props) => {
     setRowMeans([]);
   };
 
-  const createRoom = () => {
+  const createRoom = async () => {
+    const server = await checkServer();
+    if (!server) {
+      alert("Server is down or unreachable"); 
+      return;
+    }
     if (socket && username.trim() && roomForm.name.trim()) {
       const roomId = uuidv4(); // UUID oluştur
       const userId = uuidv4(); // Kullanıcı ID'si oluştur
@@ -786,7 +806,7 @@ const Online = (props: Props) => {
         )}
         {gameState.phase === "playing" && (
           <>
-            <div className='w-[330px] min-h-[390px] md:w-auto md:h-auto'>
+            <div className='w-3/4 min-h-auto md:w-auto md:h-auto'>
               <div className='w-full flex justify-end items-center h-2 mb-4'>
                 <p className='text-yellow-400 text-sm ml-4'>
                   ({currentAttempts}/6 deneme)

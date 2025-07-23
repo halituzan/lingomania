@@ -13,7 +13,7 @@ function Row({ isOk, keyboardWord, word, means, solves }: Props) {
   const [showPopover, setShowPopover] = useState(false);
   const { firstLetter, win } = useSelector((state: any) => state.letter);
   const divClass =
-    "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-14 h-14 letter";
+    "uppercase text-3xl md:text-4xl font-semibold flex justify-center items-center md:w-16 md:h-16 w-12 h-12 letter";
   const changingClass = (n: number) => {
     return `
     ${
@@ -54,7 +54,7 @@ function Row({ isOk, keyboardWord, word, means, solves }: Props) {
   }, []);
 
   return (
-    <div className='grid grid-cols-5 gap-1 md:gap-4 mb-2'>
+    <div className='grid grid-cols-5 md:gap-4 mb-2'>
       <div className={` bg-green-700 text-white relative ${divClass}`}>
         <p className='z-0'>
           {firstLetter}
