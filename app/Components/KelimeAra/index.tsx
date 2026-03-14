@@ -84,6 +84,49 @@ const KelimeAra = () => {
     setLetter(letter === l ? "" : l);
   };
 
+  const escapeCsv = (val: string) => {
+    if (val == null) return "";
+    const s = String(val);
+    if (/[";\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+    return s;
+  };
+
+  const downloadExcel = useCallback(() => {
+    const BOM = "\uFEFF";
+    let csv = "";
+
+    if (lang === "turkish") {
+      const rows = words as TurkishWord[];
+      csv =
+        BOM +
+        "Kelime;Telaffuz;Lisan;Anlamlar\n" +
+        rows
+          .map((w) => {
+            const anlamlar = (w.anlamlarListe || [])
+              .map((a: any) => (a.anlam || "").replace(/;/g, ","))
+              .join(" | ");
+            return [w.madde, w.telaffuz || "", w.lisan || "", anlamlar].map(escapeCsv).join(";");
+          })
+          .join("\n");
+    } else {
+      const rows = words as EnglishWord[];
+      csv =
+        BOM +
+        "Kelime;Tür;Anlam\n" +
+        rows
+          .map((w) => [w.word, w.pos || "", w.def || ""].map(escapeCsv).join(";"))
+          .join("\n");
+    }
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `kelimeler-${lang}-${letterCount}harf${letter ? `-${letter}` : ""}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [lang, words, letterCount, letter]);
+
   const renderMeanings = (anlamlarListe: any[]) => {
     if (!anlamlarListe || anlamlarListe.length === 0) return null;
 
@@ -233,9 +276,23 @@ const KelimeAra = () => {
       {/* Sonuçlar */}
       {searched && !loading && (
         <div>
-          <p className='text-gray-500 text-xs mb-3 text-center'>
-            {total} kelime bulundu
-          </p>
+          <div className='flex flex-wrap items-center justify-center gap-2 mb-3'>
+            <p className='text-gray-500 text-xs'>
+              {total} kelime bulundu
+            </p>
+            {words.length > 0 && (
+              <button
+                type='button'
+                onClick={downloadExcel}
+                className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/30 transition-colors border border-emerald-500/30'
+              >
+                <svg className='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2}>
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4' />
+                </svg>
+                Excel’e indir
+              </button>
+            )}
+          </div>
 
           {words.length === 0 ? (
             <p className='text-gray-600 text-center py-8'>
