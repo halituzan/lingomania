@@ -26,6 +26,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     function preventTouchMove(e: any) {
+      // Kelime ara ve benzeri sayfalarda mobil scroll çalışsın
+      if (router.pathname === "/kelime-ara") return;
       e.preventDefault();
     }
 
@@ -34,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return () => {
       window.removeEventListener("touchmove", preventTouchMove);
     };
-  }, []);
+  }, [router.pathname]);
   if (loading) {
     return;
   }
